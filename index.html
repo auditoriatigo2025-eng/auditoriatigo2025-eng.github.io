@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
     <title>Auditoría Técnica · Tigo</title>
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -20,7 +18,7 @@
         }
 
         body {
-            background: #001233;
+            background: #001233; /* azul marino muy oscuro */
             padding: 8px;
             min-height: 100vh;
             display: flex;
@@ -38,7 +36,7 @@
         }
 
         .header-main {
-            background: linear-gradient(135deg, #000a1f 0%, #001845 100%);
+            background: linear-gradient(135deg, #000a1f 0%, #001845 100%); /* azul marino oscuro */
             padding: 14px 16px;
             color: white;
             position: relative;
@@ -51,7 +49,7 @@
             margin-bottom: 15px;
         }
 
-        /* CONTADOR */
+        /* CONTADOR: fondo blanco, número negro, enorme, sin solapar título */
         .contador-auditadas {
             position: absolute;
             top: 5px;
@@ -59,13 +57,13 @@
             background: white;
             color: black;
             border-radius: 30px;
-            min-width: 90px;
-            height: 90px;
+            min-width: 90px;        /* más grande */
+            height: 90px;            /* más grande */
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3.5rem;
-            font-weight: 900;
+            font-size: 3.5rem;       /* enorme, casi llena el círculo */
+            font-weight: 900;         /* máxima negrita */
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             border: 2px solid rgba(255,255,255,0.3);
             padding: 0 5px;
@@ -80,7 +78,6 @@
             align-items: center;
             justify-content: space-between;
             margin-top: 5px;
-            flex-wrap: wrap;
         }
 
         .file-upload {
@@ -91,7 +88,7 @@
             padding: 6px 12px;
             border-radius: 30px;
             flex: 1;
-            min-width: 150px;
+            max-width: 45%;
         }
 
         .file-upload i {
@@ -124,7 +121,7 @@
             max-width: 120px;
         }
 
-        /* CAMPO DE URL AHORA VISIBLE Y MEJORADO */
+        /* CAMPO DE URL - AHORA VISIBLE Y CON GUARDADO */
         .url-field {
             display: flex;
             align-items: center;
@@ -133,7 +130,6 @@
             padding: 6px 12px;
             border-radius: 30px;
             flex: 2;
-            min-width: 250px;
         }
 
         .url-field i {
@@ -157,10 +153,6 @@
 
         .url-field input.error {
             border: 2px solid #dc2626;
-        }
-
-        .url-field.valid input {
-            border-color: #10b981;
         }
 
         .save-url-btn {
@@ -230,12 +222,14 @@
             border-color: #1e3a8a;
         }
 
+        /* EJECUTADOS = VERDE */
         .code-tab.gestionado-si {
             background: #10b981 !important;
             color: white !important;
             border-color: #059669 !important;
         }
 
+        /* TRÁNSITOS = MORADO */
         .code-tab.gestionado-no {
             background: #8b5cf6 !important;
             color: white !important;
@@ -260,8 +254,6 @@
             padding: 16px;
         }
 
-        /* ... resto de estilos se mantienen igual ... */
-        
         .kpi-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -340,6 +332,10 @@
             box-shadow: 0 2px 8px rgba(30,58,138,0.3);
         }
 
+        .main-tab i {
+            font-size: 0.8rem;
+        }
+
         .main-pane {
             display: none;
         }
@@ -401,6 +397,11 @@
             background: #d0dbf5;
         }
 
+        .coord-copy.copied {
+            background: #10b981;
+            color: white;
+        }
+
         .obs-stack {
             display: flex;
             flex-direction: column;
@@ -428,6 +429,14 @@
             align-items: center;
             gap: 4px;
             margin-bottom: 6px;
+        }
+
+        .obs-box .obs-title {
+            color: #a51d33;
+        }
+
+        .obs-box.observation .obs-title {
+            color: #1e2e5a;
         }
 
         .obs-text {
@@ -500,10 +509,21 @@
             border-bottom: 1px solid #f0f0f0;
         }
 
+        .check-item:last-child {
+            border-bottom: none;
+        }
+
+        .check-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            margin-right: 4px;
+        }
+
         .check-item label {
             font-size: 0.7rem !important;
             font-weight: normal;
             color: #1e2f4d;
+            line-height: 1.3;
         }
 
         .action-buttons {
@@ -517,6 +537,10 @@
             display: flex;
             gap: 10px;
             justify-content: space-between;
+        }
+
+        .btn-row .btn {
+            flex: 1;
         }
 
         .btn {
@@ -546,10 +570,24 @@
             border-color: #128C7E;
         }
 
+        .btn-wasap i {
+            color: white;
+        }
+
         .btn-outline {
             background: white;
             color: #1e3a8a;
             border: 1.5px solid #c2d2e8;
+        }
+
+        .btn.sent {
+            background: #10b981 !important;
+            border-color: #059669 !important;
+        }
+
+        .btn.copied {
+            background: #10b981 !important;
+            border-color: #059669 !important;
         }
 
         .btn:disabled {
@@ -559,7 +597,17 @@
 
         .btn.loading {
             background: #6b7280 !important;
+            border-color: #4b5563 !important;
             cursor: wait;
+        }
+
+        .btn.loading i {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .status-bar {
@@ -580,11 +628,6 @@
         .status-bar.success {
             background: #d1fae5;
             color: #059669;
-        }
-
-        .status-bar.warning {
-            background: #fff3cd;
-            color: #856404;
         }
 
         .hidden {
@@ -620,6 +663,10 @@
             color: #7f8c9e;
         }
 
+        .modal-close:hover {
+            color: #333;
+        }
+
         .informe-preview {
             background: #f5f7fb;
             border-radius: 14px;
@@ -630,6 +677,11 @@
             max-height: 300px;
             overflow-y: auto;
             margin: 10px 0;
+            border: 1px solid #d0ddeb;
+        }
+
+        .informe-preview strong {
+            color: #1e3a8a;
         }
 
         .copy-feedback {
@@ -654,35 +706,32 @@
             100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
         }
 
+        .no-ejecucion-msg {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            border-radius: 14px;
+            padding: 12px;
+            margin-bottom: 14px;
+            font-size: 0.8rem;
+        }
+
+        .sin-observacion-msg {
+            background: #e0f2e0;
+            border-left: 4px solid #10b981;
+            border-radius: 14px;
+            padding: 12px;
+            margin-bottom: 14px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .timestamp {
             font-size: 0.65rem;
             color: rgba(255,255,255,0.6);
             text-align: center;
             margin-top: 5px;
-        }
-
-        .url-config-panel {
-            background: #e8f0fe;
-            border-radius: 16px;
-            padding: 12px;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border: 2px solid #1e3a8a;
-        }
-
-        .url-status {
-            font-size: 0.7rem;
-            padding: 4px 8px;
-            border-radius: 20px;
-            background: #f59e0b;
-            color: white;
-            white-space: nowrap;
-        }
-
-        .url-status.valid {
-            background: #10b981;
         }
     </style>
 </head>
@@ -695,6 +744,7 @@
             <h1>AUDITORÍA TÉCNICA · TIGO</h1>
         </div>
         
+        <!-- CONTADOR DE AUDITORÍAS EJECUTADAS -->
         <div class="contador-auditadas" id="contadorEjecutadas">0</div>
 
         <div class="header-controls">
@@ -706,28 +756,16 @@
                 <input type="file" id="excelInput" accept=".xlsx,.xls">
             </div>
             
-            <!-- CAMPO DE URL MANUAL - AHORA VISIBLE -->
-            <div class="url-field" id="urlField">
+            <!-- CAMPO DE URL MANUAL - AHORA VISIBLE Y CON GUARDADO -->
+            <div class="url-field">
                 <i class="fas fa-link"></i>
-                <input type="url" 
-                       id="powerAutomateUrl" 
-                       placeholder="URL Power Automate (requerido para enviar)"
-                       value="">
+                <input type="url" id="urlAutomate" placeholder="URL Power Automate (ingresar manualmente)">
                 <button class="save-url-btn" id="saveUrlBtn">
                     <i class="fas fa-save"></i> Guardar
                 </button>
             </div>
         </div>
         <div class="timestamp" id="timestamp"></div>
-    </div>
-
-    <!-- Panel de estado de URL -->
-    <div class="url-config-panel" id="urlStatusPanel">
-        <i class="fas fa-shield-alt" style="color:#1e3a8a;"></i>
-        <span id="urlStatusText">🔴 URL no configurada</span>
-        <button class="btn-outline" id="showUrlFieldBtn" style="padding: 4px 12px; font-size: 0.7rem; margin-left: auto;">
-            <i class="fas fa-edit"></i> Configurar
-        </button>
     </div>
 
     <!-- SELECTOR DE CÓDIGOS -->
@@ -786,6 +824,7 @@
         <!-- PANEL 2: AUDITORÍA -->
         <div class="main-pane" id="paneAuditoria">
             <div class="audit-form">
+                <!-- NOMBRE DEL AUDITOR -->
                 <div class="form-row">
                     <label><i class="fas fa-user-check"></i> Auditor <span style="color:#dc2626;">*</span></label>
                     <select id="auditorSelect">
@@ -796,6 +835,7 @@
                     </select>
                 </div>
 
+                <!-- Pregunta 1: ¿Se ejecutó la auditoría? -->
                 <div class="form-row">
                     <label>1. ¿Se ejecutó la auditoría? <span style="color:#dc2626;">*</span></label>
                     <select id="auditSelect" onchange="window.onAuditChange()">
@@ -805,7 +845,9 @@
                     </select>
                 </div>
 
+                <!-- Campos cuando SI (se ejecutó) -->
                 <div id="siCampos" class="hidden">
+                    <!-- Pregunta 2: ¿Se penaliza? -->
                     <div class="form-row">
                         <label>2. ¿Se penaliza?</label>
                         <select id="penalizaSelect" onchange="window.onPenalizaChange()">
@@ -815,20 +857,24 @@
                         </select>
                     </div>
 
+                    <!-- Mensaje cuando NO penaliza -->
                     <div id="noPenalizaMensaje" class="hidden sin-observacion-msg">
                         <i class="fas fa-check-circle" style="color:#10b981;"></i> Auditoría sin observación
                     </div>
 
+                    <!-- Observación de penalización -->
                     <div id="observacionCampo" class="hidden form-row">
                         <label>Observación de penalización</label>
                         <textarea id="observacionText" rows="2" placeholder="Ej: Sin sujecion de acometida..." class="motivo-textarea"></textarea>
                     </div>
 
+                    <!-- Motivo penalización -->
                     <div id="motivoCampo" class="hidden form-row">
                         <label>Motivo penalización</label>
                         <select id="motivoSelect" onchange="window.onMotivoChange()" class="motivo-select"></select>
                     </div>
 
+                    <!-- Motivos adicionales -->
                     <div id="motivoAdicionalPregunta" class="hidden form-row">
                         <label>¿Motivos adicionales?</label>
                         <select id="motivoAdicionalSelect" onchange="window.onMotivoAdicionalChange()">
@@ -843,6 +889,7 @@
                         <div class="multicheck" id="motivosAdicionales"></div>
                     </div>
 
+                    <!-- Pregunta 3: ¿Se deriva escalar a PLEX? -->
                     <div id="plexPregunta" class="hidden form-row">
                         <label>3. ¿Se deriva escalar a PLEX?</label>
                         <select id="plexSelect" onchange="window.onPlexChange()">
@@ -852,11 +899,13 @@
                         </select>
                     </div>
 
+                    <!-- Campo para texto PLEX (solo si PLEX = SI) -->
                     <div id="plexCampo" class="hidden form-row">
                         <label>Informe para PLEX</label>
-                        <textarea id="plexText" rows="3" placeholder="Ej: Niveles de Forward en la baja..." class="motivo-textarea"></textarea>
+                        <textarea id="plexText" rows="3" placeholder="Ej: Niveles de Forward en la baja, con niveles elevados, regularizar TAP según diseño" class="motivo-textarea"></textarea>
                     </div>
 
+                    <!-- Pregunta 4: Contratista debe gestionar solución (solo si penaliza = SI) -->
                     <div id="contratistaPregunta" class="hidden form-row">
                         <label>4. ¿Contratista debe gestionar solución?</label>
                         <select id="contratistaSelect" onchange="window.onContratistaChange()">
@@ -867,6 +916,7 @@
                     </div>
                 </div>
 
+                <!-- Campos cuando NO (no se ejecutó) -->
                 <div id="noCampos" class="hidden">
                     <div class="form-row">
                         <label>Motivo de NO ejecución</label>
@@ -883,14 +933,13 @@
                 </div>
             </div>
 
+            <!-- BOTONES EN AUDITORÍA -->
             <div class="action-buttons">
                 <div class="btn-row">
                     <button class="btn btn-wasap" id="btnInforme"><i class="fab fa-whatsapp"></i> Informe</button>
                     <button class="btn btn-wasap" id="btnPlex"><i class="fab fa-whatsapp"></i> PLEX</button>
                 </div>
-                <button class="btn" id="btnEnviar" disabled>
-                    <i class="fas fa-rocket"></i> Enviar a Power Automate
-                </button>
+                <button class="btn btn-outline" id="btnEnviar" disabled><i class="fas fa-rocket"></i> Enviar a Power Automate</button>
             </div>
         </div>
 
@@ -918,6 +967,7 @@
             </div>
         </div>
 
+        <!-- BARRA DE ESTADO -->
         <div class="status-bar" id="statusMsg">⬆️ Cargue el Excel para comenzar</div>
     </div>
 </div>
@@ -937,7 +987,7 @@
 </div>
 
 <script>
-    // CONFIGURACIÓN - MOTIVOS
+    // CONFIGURACIÓN - MOTIVOS ACTUALIZADOS
     const MOTIVOS_PENALIZACION = [
         "(200) Engrapado incorrecto o faltante",
         "(201) No dejó activo el servicio",
@@ -982,92 +1032,77 @@
         "cliente_telefono": "Teléfono"
     };
 
-    // CONSTANTES DE ALMACENAMIENTO
-    const STORAGE_KEY = 'auditoria_estado_v10';
-    const EXPIRY_KEY = 'auditoria_expiry_v10';
-    const URL_STORAGE_KEY = 'powerautomate_url_v1';
-    const STORAGE_DURATION = 8 * 60 * 60 * 1000; // 8 horas
-
-    // Variables globales
-    let registros = [];
-    let idxSel = 0;
-    let auditoriasEstado = {};
-    let gestionadosSI = new Set();
-    let gestionadosNO = new Set();
-    let enviados = new Set();
-    let powerAutomateUrl = '';
-
-    // Helper functions
-    const $ = id => document.getElementById(id);
+    // VARIABLE PARA LA URL DE POWER AUTOMATE (SE CARGA MANUALMENTE)
+    let POWER_AUTOMATE_URL = "";
 
     // Cargar URL guardada al iniciar
-    function cargarUrlGuardada() {
-        try {
-            const savedUrl = localStorage.getItem(URL_STORAGE_KEY);
-            if (savedUrl) {
-                powerAutomateUrl = savedUrl;
-                $("powerAutomateUrl").value = savedUrl;
-                actualizarEstadoUrl(true);
-            } else {
-                actualizarEstadoUrl(false);
-            }
-        } catch (e) {
-            console.error('Error cargando URL:', e);
+    try {
+        const savedUrl = localStorage.getItem('powerautomate_url');
+        if (savedUrl) {
+            POWER_AUTOMATE_URL = savedUrl;
+            document.getElementById('urlAutomate').value = savedUrl;
         }
+    } catch (e) {
+        console.log('Error cargando URL:', e);
     }
 
-    // Guardar URL en localStorage
-    function guardarUrl(url) {
-        try {
-            if (url && url.startsWith('https://')) {
-                localStorage.setItem(URL_STORAGE_KEY, url);
-                powerAutomateUrl = url;
-                actualizarEstadoUrl(true);
-                mostrarFeedback('✅ URL guardada correctamente');
-                return true;
-            } else {
-                mostrarFeedback('❌ URL debe comenzar con https://', 'error');
-                return false;
-            }
-        } catch (e) {
-            console.error('Error guardando URL:', e);
-            return false;
-        }
-    }
-
-    // Actualizar UI del estado de la URL
-    function actualizarEstadoUrl(tieneUrl) {
-        const urlField = $("urlField");
-        const urlStatusText = $("urlStatusText");
-        const showUrlBtn = $("showUrlFieldBtn");
-        
-        if (tieneUrl) {
-            urlField.classList.add('valid');
-            urlStatusText.innerHTML = '🟢 URL configurada';
-            urlStatusText.style.color = '#10b981';
-            showUrlBtn.innerHTML = '<i class="fas fa-sync"></i> Cambiar URL';
+    // Evento para guardar URL cuando se ingresa manualmente
+    document.getElementById('saveUrlBtn').addEventListener('click', function() {
+        const urlInput = document.getElementById('urlAutomate');
+        const url = urlInput.value.trim();
+        if (url && url.startsWith('https://')) {
+            POWER_AUTOMATE_URL = url;
+            localStorage.setItem('powerautomate_url', url);
+            mostrarFeedback('✅ URL guardada correctamente');
+            urlInput.classList.remove('error');
         } else {
-            urlField.classList.remove('valid');
-            urlStatusText.innerHTML = '🔴 URL no configurada (requerida)';
-            urlStatusText.style.color = '#dc2626';
-            showUrlBtn.innerHTML = '<i class="fas fa-edit"></i> Configurar';
+            mostrarFeedback('❌ URL debe comenzar con https://', 'error');
+            urlInput.classList.add('error');
         }
-        
-        verificarBotonEnviar();
-    }
+    });
 
-    // Mostrar/ocultar campo de URL
-    function toggleUrlField(mostrar) {
-        const urlField = $("urlField");
-        const urlPanel = $("urlStatusPanel");
-        
-        if (mostrar) {
-            urlField.style.display = 'flex';
-            urlPanel.style.display = 'none';
-        } else {
-            urlField.style.display = 'none';
-            urlPanel.style.display = 'flex';
+    // También guardar al presionar Enter
+    document.getElementById('urlAutomate').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            document.getElementById('saveUrlBtn').click();
         }
+    });
+
+    const STORAGE_KEY = 'auditoria_estado_v9';
+    const EXPIRY_KEY = 'auditoria_expiry_v9';
+    const STORAGE_DURATION = 8 * 60 * 60 * 1000; // 8 horas
+
+    const $ = id => document.getElementById(id);
+    let registros = [];
+    let idxSel = 0;
+    
+    // Objeto para almacenar el estado de auditoría de cada código
+    let auditoriasEstado = {};
+    let gestionadosSI = new Set(); // EJECUTADOS = VERDE
+    let gestionadosNO = new Set(); // TRÁNSITOS = MORADO
+
+    // Conjunto para controlar qué códigos ya fueron enviados (no se puede reenviar)
+    let enviados = new Set();
+
+    // Función para limpiar el formulario (empezar desde cero)
+    function limpiarFormulario() {
+        $("auditorSelect").value = "";
+        $("auditSelect").value = "";
+        window.onAuditChange();
+        $("penalizaSelect").value = "";
+        $("observacionText").value = "";
+        $("motivoSelect").value = "";
+        $("plexSelect").value = "";
+        $("plexText").value = "";
+        $("contratistaSelect").value = "";
+        $("motivoNoSelect").value = "";
+        $("areaSelect2").value = "";
+        $("ventasText2").value = "";
+        $("callCenterText2").value = "";
+        window.onAreaChange2();
+        document.querySelectorAll('#motivosAdicionales input[type="checkbox"]').forEach(cb => {
+            cb.checked = false;
+        });
     }
 
     // Función para mostrar feedback
@@ -1075,10 +1110,6 @@
         const feedback = document.createElement('div');
         feedback.className = 'copy-feedback';
         feedback.textContent = mensaje;
-        
-        if (tipo === 'error') feedback.style.background = '#dc2626';
-        else if (tipo === 'warning') feedback.style.background = '#f59e0b';
-        
         document.body.appendChild(feedback);
         
         setTimeout(() => {
@@ -1086,14 +1117,124 @@
         }, 2000);
     }
 
-    // Función para actualizar barra de estado
+    // Función para actualizar la barra de estado
     function actualizarStatusBar(mensaje, tipo = 'info') {
         const statusBar = $("statusMsg");
         statusBar.textContent = mensaje;
         statusBar.className = 'status-bar';
-        if (tipo === 'error') statusBar.classList.add('error');
-        else if (tipo === 'success') statusBar.classList.add('success');
-        else if (tipo === 'warning') statusBar.classList.add('warning');
+        if (tipo === 'error') {
+            statusBar.classList.add('error');
+        } else if (tipo === 'success') {
+            statusBar.classList.add('success');
+        }
+    }
+
+    // Función de copiado
+    async function copiarTexto(texto, mensaje = '✅ Copiado al portapapeles') {
+        try {
+            await navigator.clipboard.writeText(texto);
+            mostrarFeedback(mensaje);
+            return true;
+        } catch (err) {
+            try {
+                const textarea = document.createElement('textarea');
+                textarea.value = texto;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                textarea.setSelectionRange(0, 99999);
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                mostrarFeedback(mensaje);
+                return true;
+            } catch (e) {
+                mostrarFeedback('❌ Error al copiar', 'error');
+                return false;
+            }
+        }
+    }
+
+    // Formatear coordenadas
+    function formatearCoordenadas(x, y) {
+        if (x == null || y == null) return "";
+        let lat = parseFloat(String(x).replace(',','.'));
+        let lon = parseFloat(String(y).replace(',','.'));
+        if (isNaN(lat) || isNaN(lon)) return "";
+        if (Math.abs(lat) > 1000000) lat /= 1000000;
+        if (Math.abs(lon) > 1000000) lon /= 1000000;
+        return lat.toFixed(6) + "," + lon.toFixed(6);
+    }
+
+    // Formatear fecha
+    function formatearFecha() {
+        const f = new Date();
+        return `${f.getDate().toString().padStart(2,'0')}/${(f.getMonth()+1).toString().padStart(2,'0')}/${f.getFullYear()}`;
+    }
+
+    // Guardar todo el estado en localStorage
+    function guardarEstadoCompleto() {
+        try {
+            const estado = {
+                registros: registros,
+                auditoriasEstado: auditoriasEstado,
+                gestionadosSI: Array.from(gestionadosSI),
+                gestionadosNO: Array.from(gestionadosNO),
+                enviados: Array.from(enviados),
+                timestamp: Date.now(),
+                fileName: document.getElementById('file-name').textContent
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(estado));
+            localStorage.setItem(EXPIRY_KEY, Date.now() + STORAGE_DURATION);
+            
+            // Actualizar timestamp
+            const expiryDate = new Date(Date.now() + STORAGE_DURATION);
+            $("timestamp").textContent = `Datos válidos hasta: ${expiryDate.toLocaleTimeString()}`;
+        } catch (e) {
+            console.error('Error guardando estado:', e);
+        }
+    }
+
+    // Cargar estado desde localStorage
+    function cargarEstadoCompleto() {
+        try {
+            const expiry = localStorage.getItem(EXPIRY_KEY);
+            if (!expiry || Date.now() > parseInt(expiry)) {
+                localStorage.removeItem(STORAGE_KEY);
+                localStorage.removeItem(EXPIRY_KEY);
+                return false;
+            }
+
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (!saved) return false;
+
+            const estado = JSON.parse(saved);
+            
+            registros = estado.registros || [];
+            auditoriasEstado = estado.auditoriasEstado || {};
+            gestionadosSI = new Set(estado.gestionadosSI || []);
+            gestionadosNO = new Set(estado.gestionadosNO || []);
+            enviados = new Set(estado.enviados || []);
+            
+            if (estado.fileName) {
+                document.getElementById('file-name').textContent = estado.fileName;
+            }
+            
+            const expiryDate = new Date(parseInt(expiry));
+            $("timestamp").textContent = `Datos válidos hasta: ${expiryDate.toLocaleTimeString()}`;
+            
+            return true;
+        } catch (e) {
+            console.error('Error cargando estado:', e);
+            return false;
+        }
+    }
+
+    // Actualizar contador de auditorías ejecutadas (solo las que tienen auditSelect = SI)
+    function actualizarContadorEjecutadas() {
+        let count = gestionadosSI.size;
+        $("contadorEjecutadas").textContent = count;
+        guardarEstadoCompleto();
     }
 
     // Verificar si se puede habilitar el botón Enviar
@@ -1105,14 +1246,14 @@
         const auditEjecutado = $("auditSelect").value;
         const codigoActual = registros[idxSel]?.cliente_nro;
         
-        // Verificar URL configurada
-        if (!powerAutomateUrl) {
+        // Verificar que la URL esté configurada
+        if (!POWER_AUTOMATE_URL) {
             btnEnviar.disabled = true;
             btnEnviar.title = "Configure la URL de Power Automate primero";
             return;
         }
         
-        // Verificar si ya fue enviado
+        // Si el código ya fue enviado, deshabilitar botón
         if (codigoActual && enviados.has(codigoActual)) {
             btnEnviar.disabled = true;
             btnEnviar.title = "Este código ya fue enviado";
@@ -1126,18 +1267,117 @@
         }
     }
 
-    // Función para enviar a Power Automate (usa URL manual)
+    // Guardar estado de auditoría para un código (incluyendo auditor)
+    function guardarEstadoAuditoria(codigo) {
+        const estado = {
+            auditor: $("auditorSelect").value,
+            auditEjecutado: $("auditSelect").value,
+            penaliza: $("penalizaSelect").value,
+            observacion: $("observacionText").value,
+            motivoPpal: $("motivoSelect").value,
+            motivosAdicionales: [],
+            plex: $("plexSelect").value,
+            plexTexto: $("plexText").value,
+            contratista: $("contratistaSelect").value,
+            motivoNo: $("motivoNoSelect").value,
+            areaObs: $("areaSelect2").value,
+            ventasObs: $("ventasText2").value,
+            callCenterObs: $("callCenterText2").value
+        };
+        
+        document.querySelectorAll('#motivosAdicionales input:checked').forEach(cb => {
+            estado.motivosAdicionales.push(cb.value);
+        });
+        
+        auditoriasEstado[codigo] = estado;
+        guardarEstadoCompleto();
+        verificarBotonEnviar();
+    }
+
+    // Construir objeto de datos para enviar a Power Automate (incluye Auditor, Fecha, Codigo)
+    function construirDatosEnvio() {
+        if (!registros.length || idxSel === undefined) return null;
+        
+        const reg = registros[idxSel];
+        
+        let adicionales = [];
+        document.querySelectorAll('#motivosAdicionales input:checked').forEach(cb => {
+            adicionales.push(cb.value);
+        });
+        
+        const auditor = $("auditorSelect").value || "";
+        const auditEjecutado = $("auditSelect").value || "";
+        const penaliza = $("penalizaSelect").value || "";
+        const observacionPenalizacion = $("observacionText").value || "";
+        const motivoPenalizacion = $("motivoSelect").value || "";
+        const escalarPlex = $("plexSelect").value || "";
+        const informePlex = $("plexText").value || "";
+        const contratistaGestiona = $("contratistaSelect").value || "";
+        const motivoNoEjecucion = $("motivoNoSelect").value || "";
+        const areaDestino = $("areaSelect2").value || "";
+        const observacionVentas = $("ventasText2").value || "";
+        const observacionCallcenter = $("callCenterText2").value || "";
+        
+        const datos = {
+            // Campos requeridos por Power Automate (Auditor, Fecha, Codigo)
+            "Auditor": auditor,
+            "Fecha": new Date().toISOString(),
+            "Codigo": reg.cliente_nro || 0,
+            
+            // Datos del Excel
+            "cliente_nro": reg.cliente_nro || "",
+            "orden_nro": reg.orden_nro || "",
+            "orden_tipo": reg.orden_tipo || "",
+            "cliente_nombre_completo": reg.cliente_nombre_completo || "",
+            "ciudad": reg.ciudad || "",
+            "zona": reg.zona || "",
+            "tecnologia": reg.tecnologia || "",
+            "tecnico_nombre": reg.tecnico_nombre || "",
+            "dealer_tecnico_nombre": reg.dealer_tecnico_nombre || "",
+            "direccion": reg.orden_calle_direccion || "",
+            "telefono": reg.cliente_telefono || "",
+            "alerta": reg.alerta || reg.ALERTA || "",
+            "observacion_excel": reg.orden_observacion || reg.OBSERVACION || "",
+            
+            "coordenadas": formatearCoordenadas(reg.cliente_coordenada_x, reg.cliente_coordenada_y) || "",
+            
+            "audit_ejecutado": auditEjecutado,
+            "penaliza": penaliza,
+            "observacion_penalizacion": observacionPenalizacion,
+            "motivo_penalizacion": motivoPenalizacion,
+            "motivos_adicionales": adicionales.join('|'),
+            "escalar_plex": escalarPlex,
+            "informe_plex": informePlex,
+            "contratista_gestiona": contratistaGestiona,
+            "motivo_no_ejecucion": motivoNoEjecucion,
+            
+            "area_destino": areaDestino,
+            "observacion_ventas": observacionVentas,
+            "observacion_callcenter": observacionCallcenter,
+            
+            "fecha_envio": new Date().toISOString(),
+            "fecha_informe": formatearFecha()
+        };
+        
+        return datos;
+    }
+
+    // Función para enviar a Power Automate (usando URL manual)
     async function enviarAPowerAutomate() {
-        if (!powerAutomateUrl) {
-            actualizarStatusBar('⚠️ Configure la URL de Power Automate primero', 'error');
-            toggleUrlField(true);
+        // Verificar que la URL esté configurada
+        if (!POWER_AUTOMATE_URL) {
+            actualizarStatusBar('⚠️ Primero configure la URL de Power Automate', 'error');
+            document.getElementById('urlAutomate').focus();
             return false;
         }
         
+        const url = POWER_AUTOMATE_URL;
+        
         const codigoActual = registros[idxSel]?.cliente_nro;
         
+        // Verificar si ya fue enviado
         if (codigoActual && enviados.has(codigoActual)) {
-            actualizarStatusBar('⚠️ Este código ya fue enviado', 'error');
+            actualizarStatusBar('⚠️ Este código ya fue enviado y no puede reenviarse', 'error');
             return false;
         }
         
@@ -1163,22 +1403,26 @@
             
             actualizarStatusBar('⏳ Enviando a Power Automate...', 'info');
             
-            console.log("Enviando a URL:", powerAutomateUrl);
-            console.log("Datos:", datos);
+            // Mostrar JSON en consola para depuración
+            console.log("JSON enviado:", JSON.stringify(datos, null, 2));
             
-            const response = await fetch(powerAutomateUrl, {
+            const response = await fetch(url, {
                 method: 'POST',
                 mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                },
                 body: JSON.stringify(datos)
             });
             
-            actualizarStatusBar('✅ Datos enviados correctamente', 'success');
+            actualizarStatusBar('✅ Datos enviados correctamente a Power Automate', 'success');
             
+            // Marcar como enviado (no se podrá reenviar)
             if (codigoActual) {
                 enviados.add(codigoActual);
             }
             
+            // Marcar como gestionado
             if (registros[idxSel]) {
                 const codigo = registros[idxSel].cliente_nro;
                 const auditEjecutado = $("auditSelect").value;
@@ -1188,10 +1432,10 @@
                 
                 if (auditEjecutado === "SI") {
                     gestionadosSI.add(codigo);
-                    tab.classList.add('gestionado-si');
+                    tab.classList.add('gestionado-si'); // Verde
                 } else {
                     gestionadosNO.add(codigo);
-                    tab.classList.add('gestionado-no');
+                    tab.classList.add('gestionado-no'); // Morado
                 }
                 
                 guardarEstadoAuditoria(codigo);
@@ -1205,14 +1449,14 @@
             setTimeout(() => {
                 btnEnviar.classList.remove('sent');
                 btnEnviar.innerHTML = textoOriginal;
-                btnEnviar.disabled = true;
+                btnEnviar.disabled = true; // Se deshabilita porque ya se envió
                 verificarBotonEnviar();
             }, 3000);
             
             return true;
             
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Error enviando a Power Automate:', error);
             actualizarStatusBar('❌ Error al enviar: ' + error.message, 'error');
             
             btnEnviar.classList.remove('loading');
@@ -1224,158 +1468,21 @@
         }
     }
 
-    // Construir datos para envío
-    function construirDatosEnvio() {
-        if (!registros.length || idxSel === undefined) return null;
-        
-        const reg = registros[idxSel];
-        
-        let adicionales = [];
-        document.querySelectorAll('#motivosAdicionales input:checked').forEach(cb => {
-            adicionales.push(cb.value);
-        });
-        
-        return {
-            "Auditor": $("auditorSelect").value || "",
-            "Fecha": new Date().toISOString(),
-            "Codigo": reg.cliente_nro || 0,
-            "cliente_nro": reg.cliente_nro || "",
-            "orden_nro": reg.orden_nro || "",
-            "orden_tipo": reg.orden_tipo || "",
-            "cliente_nombre_completo": reg.cliente_nombre_completo || "",
-            "ciudad": reg.ciudad || "",
-            "zona": reg.zona || "",
-            "tecnologia": reg.tecnologia || "",
-            "tecnico_nombre": reg.tecnico_nombre || "",
-            "dealer_tecnico_nombre": reg.dealer_tecnico_nombre || "",
-            "direccion": reg.orden_calle_direccion || "",
-            "telefono": reg.cliente_telefono || "",
-            "alerta": reg.alerta || reg.ALERTA || "",
-            "observacion_excel": reg.orden_observacion || reg.OBSERVACION || "",
-            "coordenadas": formatearCoordenadas(reg.cliente_coordenada_x, reg.cliente_coordenada_y) || "",
-            "audit_ejecutado": $("auditSelect").value || "",
-            "penaliza": $("penalizaSelect").value || "",
-            "observacion_penalizacion": $("observacionText").value || "",
-            "motivo_penalizacion": $("motivoSelect").value || "",
-            "motivos_adicionales": adicionales.join('|'),
-            "escalar_plex": $("plexSelect").value || "",
-            "informe_plex": $("plexText").value || "",
-            "contratista_gestiona": $("contratistaSelect").value || "",
-            "motivo_no_ejecucion": $("motivoNoSelect").value || "",
-            "area_destino": $("areaSelect2").value || "",
-            "observacion_ventas": $("ventasText2").value || "",
-            "observacion_callcenter": $("callCenterText2").value || "",
-            "fecha_envio": new Date().toISOString(),
-            "fecha_informe": formatearFecha()
-        };
-    }
-
-    // Formatear coordenadas
-    function formatearCoordenadas(x, y) {
-        if (x == null || y == null) return "";
-        let lat = parseFloat(String(x).replace(',','.'));
-        let lon = parseFloat(String(y).replace(',','.'));
-        if (isNaN(lat) || isNaN(lon)) return "";
-        if (Math.abs(lat) > 1000000) lat /= 1000000;
-        if (Math.abs(lon) > 1000000) lon /= 1000000;
-        return lat.toFixed(6) + "," + lon.toFixed(6);
-    }
-
-    function formatearFecha() {
-        const f = new Date();
-        return `${f.getDate().toString().padStart(2,'0')}/${(f.getMonth()+1).toString().padStart(2,'0')}/${f.getFullYear()}`;
-    }
-
+    // --- FUNCIÓN PARA EXTRAER EL NÚMERO DE CITA (SA-xxxxx) ---
     function extraerNumeroCita(reg) {
-        if (reg['AJ'] && typeof reg['AJ'] === 'string' && reg['AJ'].includes('SA-')) return reg['AJ'];
-        if (reg.numero_cita && typeof reg.numero_cita === 'string' && reg.numero_cita.includes('SA-')) return reg.numero_cita;
-        if (reg.orden_nro_1 && typeof reg.orden_nro_1 === 'string' && reg.orden_nro_1.includes('SA-')) return reg.orden_nro_1;
+        if (reg['AJ'] && typeof reg['AJ'] === 'string' && reg['AJ'].includes('SA-')) {
+            return reg['AJ'];
+        }
+        if (reg.numero_cita && typeof reg.numero_cita === 'string' && reg.numero_cita.includes('SA-')) {
+            return reg.numero_cita;
+        }
+        if (reg.orden_nro_1 && typeof reg.orden_nro_1 === 'string' && reg.orden_nro_1.includes('SA-')) {
+            return reg.orden_nro_1;
+        }
         return null;
     }
 
-    // Funciones de persistencia
-    function guardarEstadoCompleto() {
-        try {
-            const estado = {
-                registros: registros,
-                auditoriasEstado: auditoriasEstado,
-                gestionadosSI: Array.from(gestionadosSI),
-                gestionadosNO: Array.from(gestionadosNO),
-                enviados: Array.from(enviados),
-                timestamp: Date.now(),
-                fileName: document.getElementById('file-name').textContent
-            };
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(estado));
-            localStorage.setItem(EXPIRY_KEY, Date.now() + STORAGE_DURATION);
-            
-            const expiryDate = new Date(Date.now() + STORAGE_DURATION);
-            $("timestamp").textContent = `Datos válidos hasta: ${expiryDate.toLocaleTimeString()}`;
-        } catch (e) {
-            console.error('Error guardando estado:', e);
-        }
-    }
-
-    function guardarEstadoAuditoria(codigo) {
-        const estado = {
-            auditor: $("auditorSelect").value,
-            auditEjecutado: $("auditSelect").value,
-            penaliza: $("penalizaSelect").value,
-            observacion: $("observacionText").value,
-            motivoPpal: $("motivoSelect").value,
-            motivosAdicionales: [],
-            plex: $("plexSelect").value,
-            plexTexto: $("plexText").value,
-            contratista: $("contratistaSelect").value,
-            motivoNo: $("motivoNoSelect").value,
-            areaObs: $("areaSelect2").value,
-            ventasObs: $("ventasText2").value,
-            callCenterObs: $("callCenterText2").value
-        };
-        
-        document.querySelectorAll('#motivosAdicionales input:checked').forEach(cb => {
-            estado.motivosAdicionales.push(cb.value);
-        });
-        
-        auditoriasEstado[codigo] = estado;
-        guardarEstadoCompleto();
-    }
-
-    function actualizarContadorEjecutadas() {
-        $("contadorEjecutadas").textContent = gestionadosSI.size;
-        guardarEstadoCompleto();
-    }
-
-    // Event Listeners
-    document.addEventListener('DOMContentLoaded', function() {
-        cargarMotivos();
-        cargarUrlGuardada();
-        
-        // Configurar eventos de URL
-        $("saveUrlBtn").addEventListener("click", function() {
-            const url = $("powerAutomateUrl").value.trim();
-            if (guardarUrl(url)) {
-                toggleUrlField(false);
-            }
-        });
-        
-        $("showUrlFieldBtn").addEventListener("click", function() {
-            toggleUrlField(true);
-        });
-        
-        // Ocultar campo de URL inicialmente si hay URL guardada
-        if (powerAutomateUrl) {
-            toggleUrlField(false);
-        } else {
-            toggleUrlField(true); // Mostrar para que configuren
-        }
-        
-        $("auditorSelect").addEventListener("change", verificarBotonEnviar);
-        $("auditSelect").addEventListener("change", verificarBotonEnviar);
-        
-        verificarBotonEnviar();
-    });
-
-    // Funciones de UI
+    // Seleccionar registro
     window.seleccionarRegistro = function(index) {
         idxSel = index;
         document.querySelectorAll('.code-tab').forEach((tab, i) => {
@@ -1389,7 +1496,12 @@
         $("kpiZona").innerText = reg.zona || '—';
         
         const citaNum = extraerNumeroCita(reg);
-        $("kpiCitaServicio").innerHTML = `<span class="tecnologia-sa">${citaNum || '—'}</span>`;
+        let citaDisplay = '—';
+        if (citaNum) {
+            citaDisplay = citaNum;
+        }
+        $("kpiCitaServicio").innerHTML = `<span class="tecnologia-sa">${citaDisplay}</span>`;
+        
         $("kpiCodigoCliente").innerText = reg.cliente_nro || '—';
 
         let html = '';
@@ -1416,52 +1528,138 @@
         $("obsText").innerText = reg.orden_observacion || reg.OBSERVACION || '(sin observación)';
         
         limpiarFormulario();
+
+        // Marcar según el conjunto correspondiente
+        if (gestionadosSI.has(reg.cliente_nro)) {
+            document.querySelectorAll('.code-tab')[index]?.classList.add('gestionado-si');
+        } else if (gestionadosNO.has(reg.cliente_nro)) {
+            document.querySelectorAll('.code-tab')[index]?.classList.add('gestionado-no');
+        }
+        
         verificarBotonEnviar();
+        actualizarStatusBar(`📋 Datos del cliente ${reg.cliente_nro}`, 'info');
     };
 
     window.copiarCoordenadas = async function(coord, boton) {
-        try {
-            await navigator.clipboard.writeText(coord);
-            mostrarFeedback('📍 Coordenadas copiadas');
+        const exito = await copiarTexto(coord, '📍 Coordenadas copiadas');
+        if (exito && boton) {
             boton.classList.add('copied');
             boton.innerHTML = '<i class="fas fa-check"></i> Copiado';
             setTimeout(() => {
                 boton.classList.remove('copied');
                 boton.innerHTML = '<i class="far fa-copy"></i> Copiar';
             }, 2000);
-        } catch (e) {
-            mostrarFeedback('❌ Error al copiar', 'error');
         }
     };
 
-    function limpiarFormulario() {
-        $("auditorSelect").value = "";
-        $("auditSelect").value = "";
-        window.onAuditChange();
-        $("penalizaSelect").value = "";
-        $("observacionText").value = "";
-        $("motivoSelect").value = "";
-        $("plexSelect").value = "";
-        $("plexText").value = "";
-        $("contratistaSelect").value = "";
-        $("motivoNoSelect").value = "";
-        $("areaSelect2").value = "";
-        $("ventasText2").value = "";
-        $("callCenterText2").value = "";
-        window.onAreaChange2();
-        document.querySelectorAll('#motivosAdicionales input[type="checkbox"]').forEach(cb => {
-            cb.checked = false;
-        });
+    // CARGA DE EXCEL
+    $("excelInput").addEventListener("change", function(e) {
+        const file = e.target.files[0];
+        if (!file) { 
+            actualizarStatusBar("⚠️ No seleccionó archivo", 'error');
+            return; 
+        }
+        
+        document.getElementById('file-name').textContent = file.name.length > 15 ? file.name.substring(0,12)+'...' : file.name;
+        actualizarStatusBar("⏳ Cargando...", 'info');
+
+        const reader = new FileReader();
+        reader.onload = function(loadEvent) {
+            try {
+                const data = new Uint8Array(loadEvent.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const firstSheet = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheet];
+                const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+                if (jsonData.length < 2) { 
+                    actualizarStatusBar("❌ Archivo sin datos", 'error'); 
+                    return; 
+                }
+
+                const headers = jsonData[0];
+                const rows = jsonData.slice(1).filter(row => row[0] && row[0] !== "");
+                
+                registros = rows.map(row => {
+                    let obj = {};
+                    headers.forEach((h, idx) => { if (h) obj[h] = row[idx] !== undefined ? row[idx] : ""; });
+                    return obj;
+                }).filter(r => r.cliente_nro);
+
+                if (!registros.length) { 
+                    actualizarStatusBar("❌ No hay registros", 'error'); 
+                    return; 
+                }
+
+                const container = $("codesTabsContainer");
+                container.innerHTML = "";
+                registros.forEach((reg, i) => {
+                    const tab = document.createElement("div");
+                    tab.className = "code-tab" + (i === 0 ? " active" : "");
+                    tab.textContent = reg.cliente_nro || 'N/A';
+                    tab.setAttribute('data-index', i);
+                    tab.onclick = () => window.seleccionarRegistro(i);
+                    
+                    if (gestionadosSI.has(reg.cliente_nro)) {
+                        tab.classList.add('gestionado-si');
+                    } else if (gestionadosNO.has(reg.cliente_nro)) {
+                        tab.classList.add('gestionado-no');
+                    }
+                    
+                    container.appendChild(tab);
+                });
+                
+                $("codeCount").textContent = registros.length;
+                window.seleccionarRegistro(0);
+                actualizarStatusBar(`✅ ${registros.length} registros cargados`, 'success');
+                actualizarContadorEjecutadas();
+                guardarEstadoCompleto();
+            } catch (err) {
+                actualizarStatusBar("❌ Error: " + err.message, 'error');
+            }
+        };
+        reader.readAsArrayBuffer(file);
+    });
+
+    function activarMainTab(tabId) {
+        document.querySelectorAll('.main-pane').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.main-tab').forEach(b => b.classList.remove('active'));
+        
+        if (tabId === 'info') {
+            $('paneInfo').classList.add('active');
+            $('tabInfoBtn').classList.add('active');
+        } else if (tabId === 'auditoria') {
+            $('paneAuditoria').classList.add('active');
+            $('tabAuditoriaBtn').classList.add('active');
+        } else if (tabId === 'obs') {
+            $('paneObs').classList.add('active');
+            $('tabObsBtn').classList.add('active');
+        }
     }
 
-    // Funciones de cambio de UI
+    $('tabInfoBtn').addEventListener('click', () => activarMainTab('info'));
+    $('tabAuditoriaBtn').addEventListener('click', () => activarMainTab('auditoria'));
+    $('tabObsBtn').addEventListener('click', () => activarMainTab('obs'));
+
+    // Funciones auditoría
     window.onAuditChange = function() {
         const val = $("auditSelect").value;
         $("siCampos").classList.add("hidden");
         $("noCampos").classList.add("hidden");
+        $("noPenalizaMensaje").classList.add("hidden");
+        $("plexPregunta").classList.add("hidden");
+        $("plexCampo").classList.add("hidden");
+        $("observacionCampo").classList.add("hidden");
+        $("motivoCampo").classList.add("hidden");
+        $("motivoAdicionalPregunta").classList.add("hidden");
+        $("adicionalCampo").classList.add("hidden");
+        $("contratistaPregunta").classList.add("hidden");
         
-        if (val === "SI") $("siCampos").classList.remove("hidden");
-        else if (val === "NO") $("noCampos").classList.remove("hidden");
+        if (val === "SI") {
+            $("siCampos").classList.remove("hidden");
+        } else if (val === "NO") {
+            $("noCampos").classList.remove("hidden");
+        }
         
         verificarBotonEnviar();
     };
@@ -1516,6 +1714,36 @@
 
     window.onContratistaChange = function() {}
 
+    function cargarMotivos() {
+        const select = $("motivoSelect");
+        if (select) {
+            select.innerHTML = '<option value="">Seleccione...</option>';
+            MOTIVOS_PENALIZACION.forEach(m => {
+                select.innerHTML += `<option value="${m}">${m}</option>`;
+            });
+        }
+
+        const container = $("motivosAdicionales");
+        if (container) {
+            container.innerHTML = "";
+            MOTIVOS_PENALIZACION.forEach(m => {
+                const id = "chk_" + m.replace(/[^a-z0-9]/gi, '_');
+                container.innerHTML += `<div class="check-item">
+                    <input type="checkbox" id="${id}" value="${m}">
+                    <label for="${id}">${m}</label>
+                </div>`;
+            });
+        }
+    }
+
+    $("btnReset").addEventListener("click", () => {
+        if (confirm('¿Está seguro de reiniciar todos los datos? Se perderá el progreso de las últimas 8 horas.')) {
+            localStorage.removeItem(STORAGE_KEY);
+            localStorage.removeItem(EXPIRY_KEY);
+            location.reload();
+        }
+    });
+
     window.onAreaChange2 = function() {
         const area = $("areaSelect2").value;
         $("ventasCampo2").classList.add("hidden");
@@ -1524,130 +1752,16 @@
         if (area === "CALL CENTER") $("callCenterCampo2").classList.remove("hidden");
     };
 
-    function cargarMotivos() {
-        const select = $("motivoSelect");
-        select.innerHTML = '<option value="">Seleccione...</option>';
-        MOTIVOS_PENALIZACION.forEach(m => {
-            select.innerHTML += `<option value="${m}">${m}</option>`;
-        });
-
-        const container = $("motivosAdicionales");
-        container.innerHTML = "";
-        MOTIVOS_PENALIZACION.forEach(m => {
-            const id = "chk_" + m.replace(/[^a-z0-9]/gi, '_');
-            container.innerHTML += `<div class="check-item">
-                <input type="checkbox" id="${id}" value="${m}">
-                <label for="${id}">${m}</label>
-            </div>`;
-        });
-    }
-
-    // Event listeners para tabs
-    $('tabInfoBtn').addEventListener('click', () => {
-        document.querySelectorAll('.main-pane').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.main-tab').forEach(b => b.classList.remove('active'));
-        $('paneInfo').classList.add('active');
-        $('tabInfoBtn').classList.add('active');
-    });
-
-    $('tabAuditoriaBtn').addEventListener('click', () => {
-        document.querySelectorAll('.main-pane').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.main-tab').forEach(b => b.classList.remove('active'));
-        $('paneAuditoria').classList.add('active');
-        $('tabAuditoriaBtn').classList.add('active');
-    });
-
-    $('tabObsBtn').addEventListener('click', () => {
-        document.querySelectorAll('.main-pane').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.main-tab').forEach(b => b.classList.remove('active'));
-        $('paneObs').classList.add('active');
-        $('tabObsBtn').classList.add('active');
-    });
-
-    // Carga de Excel
-    $("excelInput").addEventListener("change", function(e) {
-        const file = e.target.files[0];
-        if (!file) { 
-            actualizarStatusBar("⚠️ No seleccionó archivo", 'error');
-            return; 
-        }
-        
-        document.getElementById('file-name').textContent = file.name.length > 15 ? file.name.substring(0,12)+'...' : file.name;
-        actualizarStatusBar("⏳ Cargando...", 'info');
-
-        const reader = new FileReader();
-        reader.onload = function(loadEvent) {
-            try {
-                const data = new Uint8Array(loadEvent.target.result);
-                const workbook = XLSX.read(data, { type: 'array' });
-                const firstSheet = workbook.SheetNames[0];
-                const worksheet = workbook.Sheets[firstSheet];
-                const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-                if (jsonData.length < 2) { 
-                    actualizarStatusBar("❌ Archivo sin datos", 'error'); 
-                    return; 
-                }
-
-                const headers = jsonData[0];
-                const rows = jsonData.slice(1).filter(row => row[0] && row[0] !== "");
-                
-                registros = rows.map(row => {
-                    let obj = {};
-                    headers.forEach((h, idx) => { if (h) obj[h] = row[idx] !== undefined ? row[idx] : ""; });
-                    return obj;
-                }).filter(r => r.cliente_nro);
-
-                if (!registros.length) { 
-                    actualizarStatusBar("❌ No hay registros", 'error'); 
-                    return; 
-                }
-
-                const container = $("codesTabsContainer");
-                container.innerHTML = "";
-                registros.forEach((reg, i) => {
-                    const tab = document.createElement("div");
-                    tab.className = "code-tab" + (i === 0 ? " active" : "");
-                    tab.textContent = reg.cliente_nro || 'N/A';
-                    tab.setAttribute('data-index', i);
-                    tab.onclick = () => window.seleccionarRegistro(i);
-                    
-                    if (gestionadosSI.has(reg.cliente_nro)) tab.classList.add('gestionado-si');
-                    else if (gestionadosNO.has(reg.cliente_nro)) tab.classList.add('gestionado-no');
-                    
-                    container.appendChild(tab);
-                });
-                
-                $("codeCount").textContent = registros.length;
-                window.seleccionarRegistro(0);
-                actualizarStatusBar(`✅ ${registros.length} registros cargados`, 'success');
-                actualizarContadorEjecutadas();
-                guardarEstadoCompleto();
-            } catch (err) {
-                actualizarStatusBar("❌ Error: " + err.message, 'error');
-            }
-        };
-        reader.readAsArrayBuffer(file);
-    });
-
-    $("btnReset").addEventListener("click", () => {
-        if (confirm('¿Está seguro de reiniciar todos los datos?')) {
-            localStorage.removeItem(STORAGE_KEY);
-            localStorage.removeItem(EXPIRY_KEY);
-            // No borramos la URL guardada
-            location.reload();
-        }
-    });
-
     $("btnInforme").addEventListener("click", () => {
         if (!registros.length) { mostrarFeedback('⚠️ Primero cargue Excel', 'error'); return; }
         
         const reg = registros[idxSel];
-        const auditor = $("auditorSelect").value || "No seleccionado";
-        const auditEjecutado = $("auditSelect").value;
-        const penaliza = $("penalizaSelect").value;
+        
         const obsPenalizacion = $("observacionText").value || "Sin observación";
         const motivoPpal = $("motivoSelect").value || "No aplica";
+        const auditEjecutado = $("auditSelect").value;
+        const penaliza = $("penalizaSelect").value;
+        const auditor = $("auditorSelect").value || "No seleccionado";
         
         let adicionales = [];
         document.querySelectorAll('#motivosAdicionales input:checked').forEach(cb => {
@@ -1659,29 +1773,36 @@
         const contratista = $("contratistaSelect").value || "NO";
         const motivoNo = $("motivoNoSelect").value || "No aplica";
         
+        const citaNum = extraerNumeroCita(reg);
+        const citaDisplay = citaNum ? citaNum : '—';
+        
         let informe = "*---INFORME DE AUDITORÍA---*\n\n";
-        informe += `*CÓDIGO:* ${reg.cliente_nro || ''}\n`;
-        informe += `*OT:* ${reg.orden_nro || ''}\n`;
+        informe += `*CÓDIGO DE CLIENTE:* ${reg.cliente_nro || ''}\n`;
+        informe += `*NÚMERO DE OT:* ${reg.orden_nro || ''}\n`;
         informe += `*TECNOLOGÍA:* ${reg.tecnologia || 'HFC'}\n`;
+        informe += `*TIPO DE ORDEN:* ${reg.orden_tipo || ''}\n`;
         informe += `*USUARIO:* ${reg.cliente_nombre_completo || ''}\n`;
+        informe += `*EMPRESA:* ${reg.dealer_tecnico_nombre || ''}\n`;
         informe += `*TÉCNICO:* ${reg.tecnico_nombre || ''}\n`;
-        informe += `*AUDITOR:* ${auditor}\n`;
+        informe += `*ZONA:* ${reg.zona || ''}\n`;
         
         if (auditEjecutado === "NO") {
             informe += `*MOTIVO NO EJECUCIÓN:* ${motivoNo}\n`;
         } else {
             if (penaliza === "SI") {
-                informe += `*OBSERVACIÓN:* ${obsPenalizacion}\n`;
-                informe += `*MOTIVO:* ${motivoPpal}\n`;
-                informe += `*ADICIONALES:* ${motivosAdic}\n`;
+                informe += `*OBSERVACIÓN DE PENALIZACIÓN:* ${obsPenalizacion}\n`;
+                informe += `*MOTIVO PENALIZACIÓN:* ${motivoPpal}\n`;
+                informe += `*MOTIVOS ADICIONALES:* ${motivosAdic}\n`;
             } else {
                 informe += `*AUDITORÍA SIN OBSERVACIÓN*\n`;
             }
-            informe += `*PLEX:* ${escalarPlex}\n`;
-            if (penaliza === "SI") informe += `*CONTRATISTA GESTIONA:* ${contratista}\n`;
+            informe += `*SE DERIVA ESCALAR A PLEX:* ${escalarPlex}\n`;
+            if (penaliza === "SI") {
+                informe += `*CONTRATISTA DEBE GESTIONAR SOLUCIÓN:* ${contratista}\n`;
+            }
         }
         
-        informe += `*FECHA:* ${formatearFecha()}`;
+        informe += `*FECHA DE INFORME:* ${formatearFecha()}`;
         
         $("informeTexto").innerText = informe;
         $("informeModal").classList.remove("hidden");
@@ -1692,14 +1813,16 @@
     };
     
     $("copiarInformeBtn").addEventListener("click", async function() {
-        await navigator.clipboard.writeText($("informeTexto").innerText);
-        mostrarFeedback('📋 Informe copiado');
-        this.classList.add('sent');
-        this.innerHTML = '<i class="fas fa-check"></i> Copiado';
-        setTimeout(() => {
-            this.classList.remove('sent');
-            this.innerHTML = '<i class="far fa-copy"></i> Copiar';
-        }, 2000);
+        let texto = $("informeTexto").innerText;
+        const exito = await copiarTexto(texto, '📋 Informe copiado');
+        if (exito) {
+            this.classList.add('sent');
+            this.innerHTML = '<i class="fas fa-check"></i> Copiado';
+            setTimeout(() => {
+                this.classList.remove('sent');
+                this.innerHTML = '<i class="far fa-copy"></i> Copiar';
+            }, 2000);
+        }
     });
 
     $("btnPlex").addEventListener("click", () => {
@@ -1707,84 +1830,58 @@
         
         const reg = registros[idxSel];
         const plexContent = $("plexText").value || "Sin informe específico";
+        const fecha = formatearFecha();
+        
+        const citaNum = extraerNumeroCita(reg);
+        const citaDisplay = citaNum ? citaNum : '—';
+        const nodoCompleto = reg.zona || '';
         
         let plexInforme = `Tecnología: ${reg.tecnologia || 'HFC'}\n`;
-        plexInforme += `Nodo: ${reg.zona || ''}\n`;
-        plexInforme += `Codigo: ${reg.cliente_nro || ''}\n`;
+        plexInforme += `Nodo: ${nodoCompleto}\n`;
+        plexInforme += `Codigo Cliente: ${reg.cliente_nro || ''}\n`;
         plexInforme += `Usuario: ${reg.cliente_nombre_completo || ''}\n`;
         plexInforme += `Informe: ${plexContent}\n`;
-        plexInforme += `Fecha: ${formatearFecha()}`;
+        plexInforme += `Fecha: ${fecha}`;
         
         $("informeTexto").innerText = plexInforme;
         $("informeModal").classList.remove("hidden");
         mostrarFeedback('📤 Informe PLEX generado');
     });
 
-    $("btnEnviar").addEventListener("click", enviarAPowerAutomate);
+    const btnEnviar = $("btnEnviar");
+    btnEnviar.addEventListener("click", enviarAPowerAutomate);
 
-    // Protecciones para Chrome Android
-    (function() {
-        const isChromeAndroid = /Android.*Chrome/i.test(navigator.userAgent);
+    document.addEventListener('DOMContentLoaded', function() {
+        cargarMotivos();
         
-        if (isChromeAndroid) {
-            console.log('📱 Chrome Android - Activando protecciones');
-            
-            // Prevenir swipe back
-            let touchStart = { x: 0, y: 0 };
-            
-            document.addEventListener('touchstart', function(e) {
-                touchStart.x = e.touches[0].clientX;
-                touchStart.y = e.touches[0].clientY;
-            }, { passive: true });
-            
-            document.addEventListener('touchmove', function(e) {
-                if (!touchStart.x) return;
+        if (cargarEstadoCompleto() && registros.length > 0) {
+            const container = $("codesTabsContainer");
+            container.innerHTML = "";
+            registros.forEach((reg, i) => {
+                const tab = document.createElement("div");
+                tab.className = "code-tab" + (i === 0 ? " active" : "");
+                tab.textContent = reg.cliente_nro || 'N/A';
+                tab.setAttribute('data-index', i);
+                tab.onclick = () => window.seleccionarRegistro(i);
                 
-                const touchEnd = {
-                    x: e.touches[0].clientX,
-                    y: e.touches[0].clientY
-                };
-                
-                const diffX = touchEnd.x - touchStart.x;
-                const diffY = Math.abs(touchEnd.y - touchStart.y);
-                
-                // Swipe derecho (navegación atrás)
-                if (diffX > 50 && diffY < 30) {
-                    e.preventDefault();
+                if (gestionadosSI.has(reg.cliente_nro)) {
+                    tab.classList.add('gestionado-si');
+                } else if (gestionadosNO.has(reg.cliente_nro)) {
+                    tab.classList.add('gestionado-no');
                 }
                 
-                // Pull to refresh
-                if (window.scrollY === 0 && touchEnd.y - touchStart.y > 30) {
-                    e.preventDefault();
-                }
-            }, { passive: false });
-            
-            // Bloquear botón back
-            history.pushState(null, null, location.href);
-            window.addEventListener('popstate', function() {
-                history.pushState(null, null, location.href);
-                mostrarFeedback('🔙 Navegación bloqueada', 'warning');
+                container.appendChild(tab);
             });
             
-            // Mantener pantalla encendida
-            if ('wakeLock' in navigator) {
-                let wakeLock = null;
-                async function requestWakeLock() {
-                    try {
-                        wakeLock = await navigator.wakeLock.request('screen');
-                    } catch (err) {}
-                }
-                requestWakeLock();
-                
-                document.addEventListener('visibilitychange', async () => {
-                    if (wakeLock !== null && document.visibilityState === 'visible') {
-                        await requestWakeLock();
-                    }
-                });
-            }
+            $("codeCount").textContent = registros.length;
+            window.seleccionarRegistro(0);
+            actualizarStatusBar(`✅ Datos recuperados (${registros.length} registros)`, 'success');
+            actualizarContadorEjecutadas();
         }
-    })();
-
+        
+        $("auditorSelect").addEventListener("change", verificarBotonEnviar);
+        verificarBotonEnviar();
+    });
 </script>
 </body>
 </html>
