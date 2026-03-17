@@ -1,0 +1,1790 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Auditoría Técnica · Tigo</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- SheetJS para Excel -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+    <style>
+        /* ESTILOS COMPLETOS - Fondo azul marino oscuro */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: #001233;
+            padding: 8px;
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .dashboard {
+            max-width: 100%;
+            width: 100%;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px -8px rgba(0,20,60,0.2);
+            overflow: hidden;
+        }
+
+        .header-main {
+            background: linear-gradient(135deg, #000a1f 0%, #001845 100%);
+            padding: 14px 16px;
+            color: white;
+            position: relative;
+        }
+
+        .logo h1 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        /* CONTADOR */
+        .contador-auditadas {
+            position: absolute;
+            top: 5px;
+            right: 12px;
+            background: white;
+            color: black;
+            border-radius: 30px;
+            min-width: 90px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            font-weight: 900;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 0 5px;
+            line-height: 1;
+            z-index: 10;
+        }
+
+        .header-controls {
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 5px;
+            flex-wrap: wrap;
+        }
+
+        .file-upload {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.12);
+            padding: 6px 12px;
+            border-radius: 30px;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .file-upload i {
+            color: #8bc34a;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .file-upload input {
+            display: none;
+        }
+        
+        .file-upload label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            width: 100%;
+        }
+        
+        .file-upload span {
+            color: white;
+            font-size: 0.75rem;
+            background: rgba(255,255,255,0.15);
+            padding: 4px 8px;
+            border-radius: 30px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 120px;
+        }
+
+        /* CAMPO DE URL AHORA VISIBLE Y MEJORADO */
+        .url-field {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.12);
+            padding: 6px 12px;
+            border-radius: 30px;
+            flex: 2;
+            min-width: 250px;
+        }
+
+        .url-field i {
+            color: #7aa9ff;
+            font-size: 0.9rem;
+        }
+
+        .url-field input {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 6px 10px;
+            width: 100%;
+            font-size: 0.75rem;
+            border-radius: 20px;
+        }
+
+        .url-field input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .url-field input.error {
+            border: 2px solid #dc2626;
+        }
+
+        .url-field.valid input {
+            border-color: #10b981;
+        }
+
+        .save-url-btn {
+            background: #10b981;
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+        }
+
+        .save-url-btn:hover {
+            background: #059669;
+        }
+
+        .codes-tabs {
+            background: white;
+            padding: 12px 16px 0 16px;
+            border-bottom: 2px solid #eef2f7;
+        }
+
+        .codes-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .codes-header h3 {
+            font-size: 0.85rem;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .codes-scroll {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scrollbar-width: thin;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .code-tab {
+            background: #f4f7fc;
+            border: 1px solid #dae2ed;
+            border-radius: 30px;
+            padding: 6px 16px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #1e2f4d;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .code-tab.active {
+            background: #1e3a8a;
+            color: white;
+            border-color: #1e3a8a;
+        }
+
+        .code-tab.gestionado-si {
+            background: #10b981 !important;
+            color: white !important;
+            border-color: #059669 !important;
+        }
+
+        .code-tab.gestionado-no {
+            background: #8b5cf6 !important;
+            color: white !important;
+            border-color: #6d28d9 !important;
+        }
+
+        .reset-btn {
+            background: #fee2e2;
+            border: 1px solid #fecaca;
+            border-radius: 30px;
+            padding: 5px 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #991b1b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .content {
+            padding: 16px;
+        }
+
+        /* ... resto de estilos se mantienen igual ... */
+        
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .kpi-card {
+            background: linear-gradient(145deg, #f9fcff, #f0f5fd);
+            border-radius: 16px;
+            padding: 12px;
+            border: 1px solid #dde7f5;
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .kpi-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: #4a5e7a;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 4px;
+            white-space: nowrap;
+        }
+
+        .kpi-value {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #0a2540;
+            white-space: normal;
+            word-break: break-word;
+            line-height: 1.3;
+            max-width: 100%;
+        }
+
+        .tecnologia-sa {
+            background: #e6f0ff;
+            padding: 2px 8px;
+            border-radius: 30px;
+            display: inline-block;
+            font-weight: 600;
+            color: #00337c;
+        }
+
+        .main-tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 16px;
+            background: #f0f4fa;
+            padding: 4px;
+            border-radius: 40px;
+        }
+
+        .main-tab {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 10px 0;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: #5d718b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            transition: all 0.2s;
+        }
+
+        .main-tab.active {
+            background: #1e3a8a;
+            color: white;
+            box-shadow: 0 2px 8px rgba(30,58,138,0.3);
+        }
+
+        .main-pane {
+            display: none;
+        }
+
+        .main-pane.active {
+            display: block;
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            background: #f9fcff;
+            border-radius: 18px;
+            padding: 16px;
+            border: 1px solid #dde5f0;
+            margin-bottom: 16px;
+        }
+
+        .data-item {
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px dashed #c9d6e8;
+            padding-bottom: 8px;
+        }
+
+        .data-label {
+            font-weight: 600;
+            color: #1f3a6b;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .data-value {
+            color: #0b2a4a;
+            font-weight: 500;
+            font-size: 0.85rem;
+            word-break: break-word;
+            line-height: 1.4;
+        }
+
+        .coord-copy {
+            background: #eef2ff;
+            border: none;
+            border-radius: 20px;
+            padding: 3px 10px;
+            font-size: 0.65rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            color: #1e3a8a;
+            cursor: pointer;
+            margin-top: 5px;
+            transition: all 0.2s;
+        }
+
+        .coord-copy:hover {
+            background: #d0dbf5;
+        }
+
+        .obs-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .obs-box {
+            background: #ffeae8;
+            border-left: 4px solid #dc2626;
+            border-radius: 14px;
+            padding: 12px;
+        }
+
+        .obs-box.observation {
+            background: #e7f1fd;
+            border-left-color: #2563eb;
+        }
+
+        .obs-title {
+            font-weight: 700;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 6px;
+        }
+
+        .obs-text {
+            background: rgba(255,255,255,0.7);
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            max-height: 100px;
+            overflow-y: auto;
+        }
+
+        .audit-form {
+            background: #f6faff;
+            border-radius: 18px;
+            padding: 16px;
+            border: 1px solid #d0ddeb;
+            margin-bottom: 16px;
+        }
+
+        .form-row {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .form-row label {
+            font-weight: 600;
+            color: #1f3a6b;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .form-row select, .form-row textarea, .form-row input {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 14px;
+            border: 1.5px solid #d6e0ed;
+            background: white;
+            font-size: 0.8rem;
+        }
+
+        .motivo-select {
+            font-size: 0.7rem !important;
+            padding: 8px 10px !important;
+        }
+
+        .motivo-textarea {
+            font-size: 0.7rem !important;
+            padding: 8px 10px !important;
+        }
+
+        .multicheck {
+            background: white;
+            border-radius: 14px;
+            padding: 10px;
+            border: 1.5px solid #d6e0ed;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .check-item label {
+            font-size: 0.7rem !important;
+            font-weight: normal;
+            color: #1e2f4d;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+        }
+
+        .btn {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 14px 12px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid #3065c0;
+            width: 100%;
+        }
+
+        .btn i {
+            font-size: 0.9rem;
+        }
+
+        .btn-wasap {
+            background: #25D366;
+            border-color: #128C7E;
+        }
+
+        .btn-outline {
+            background: white;
+            color: #1e3a8a;
+            border: 1.5px solid #c2d2e8;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn.loading {
+            background: #6b7280 !important;
+            cursor: wait;
+        }
+
+        .status-bar {
+            margin-top: 12px;
+            padding: 8px 12px;
+            background: #e8f0fe;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: #1e3a8a;
+            text-align: center;
+        }
+
+        .status-bar.error {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .status-bar.success {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .status-bar.warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 15px;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 28px;
+            padding: 20px;
+            width: 100%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-close {
+            float: right;
+            font-size: 1.6rem;
+            cursor: pointer;
+            color: #7f8c9e;
+        }
+
+        .informe-preview {
+            background: #f5f7fb;
+            border-radius: 14px;
+            padding: 16px;
+            font-family: monospace;
+            font-size: 0.75rem;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 10px 0;
+        }
+
+        .copy-feedback {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e3a8a;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            z-index: 2000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            animation: fadeInOut 2s ease;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            15% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            85% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+        }
+
+        .timestamp {
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        .url-config-panel {
+            background: #e8f0fe;
+            border-radius: 16px;
+            padding: 12px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 2px solid #1e3a8a;
+        }
+
+        .url-status {
+            font-size: 0.7rem;
+            padding: 4px 8px;
+            border-radius: 20px;
+            background: #f59e0b;
+            color: white;
+            white-space: nowrap;
+        }
+
+        .url-status.valid {
+            background: #10b981;
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard">
+    <!-- HEADER -->
+    <div class="header-main">
+        <div class="logo">
+            <h1>AUDITORÍA TÉCNICA · TIGO</h1>
+        </div>
+        
+        <div class="contador-auditadas" id="contadorEjecutadas">0</div>
+
+        <div class="header-controls">
+            <div class="file-upload">
+                <label for="excelInput">
+                    <i class="fas fa-file-excel"></i>
+                    <span id="file-name">Excel</span>
+                </label>
+                <input type="file" id="excelInput" accept=".xlsx,.xls">
+            </div>
+            
+            <!-- CAMPO DE URL MANUAL - AHORA VISIBLE -->
+            <div class="url-field" id="urlField">
+                <i class="fas fa-link"></i>
+                <input type="url" 
+                       id="powerAutomateUrl" 
+                       placeholder="URL Power Automate (requerido para enviar)"
+                       value="">
+                <button class="save-url-btn" id="saveUrlBtn">
+                    <i class="fas fa-save"></i> Guardar
+                </button>
+            </div>
+        </div>
+        <div class="timestamp" id="timestamp"></div>
+    </div>
+
+    <!-- Panel de estado de URL -->
+    <div class="url-config-panel" id="urlStatusPanel">
+        <i class="fas fa-shield-alt" style="color:#1e3a8a;"></i>
+        <span id="urlStatusText">🔴 URL no configurada</span>
+        <button class="btn-outline" id="showUrlFieldBtn" style="padding: 4px 12px; font-size: 0.7rem; margin-left: auto;">
+            <i class="fas fa-edit"></i> Configurar
+        </button>
+    </div>
+
+    <!-- SELECTOR DE CÓDIGOS -->
+    <div class="codes-tabs">
+        <div class="codes-header">
+            <h3><i class="fas fa-tags"></i> Clientes: <span id="codeCount">0</span></h3>
+            <button class="reset-btn" id="btnReset"><i class="fas fa-undo-alt"></i> Reiniciar</button>
+        </div>
+        <div class="codes-scroll" id="codesTabsContainer"></div>
+    </div>
+
+    <!-- TABS PRINCIPALES -->
+    <div class="main-tabs">
+        <button class="main-tab active" id="tabInfoBtn"><i class="fas fa-info-circle"></i> Información</button>
+        <button class="main-tab" id="tabAuditoriaBtn"><i class="fas fa-clipboard-check"></i> Auditoría</button>
+        <button class="main-tab" id="tabObsBtn"><i class="fas fa-comment"></i> Obs. área</button>
+    </div>
+
+    <!-- CONTENIDO -->
+    <div class="content">
+        <!-- PANEL 1: INFORMACIÓN -->
+        <div class="main-pane active" id="paneInfo">
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-label"><i class="fas fa-user-cog"></i> TÉCNICO</div>
+                    <div class="kpi-value" id="kpiTecnico">—</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label"><i class="fas fa-map-marker-alt"></i> ZONA</div>
+                    <div class="kpi-value" id="kpiZona">—</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label"><i class="fas fa-calendar-check"></i> CITA DE SERVICIO (SA)</div>
+                    <div class="kpi-value" id="kpiCitaServicio"><span class="tecnologia-sa" id="citaServicioSpan">—</span></div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label"><i class="fas fa-qrcode"></i> CÓDIGO CLIENTE</div>
+                    <div class="kpi-value" id="kpiCodigoCliente">—</div>
+                </div>
+            </div>
+
+            <div class="data-grid" id="dataGrid"></div>
+            
+            <div class="obs-stack">
+                <div class="obs-box">
+                    <div class="obs-title"><i class="fas fa-bell"></i> ALERTA (Columna V)</div>
+                    <div class="obs-text" id="alertText"></div>
+                </div>
+                <div class="obs-box observation">
+                    <div class="obs-title"><i class="fas fa-eye"></i> OBSERVACIÓN (Columna U)</div>
+                    <div class="obs-text" id="obsText"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL 2: AUDITORÍA -->
+        <div class="main-pane" id="paneAuditoria">
+            <div class="audit-form">
+                <div class="form-row">
+                    <label><i class="fas fa-user-check"></i> Auditor <span style="color:#dc2626;">*</span></label>
+                    <select id="auditorSelect">
+                        <option value="">Seleccione auditor...</option>
+                        <option value="Santos Arsenio Calisaya Condori">Santos Arsenio Calisaya Condori</option>
+                        <option value="Oscar Torrez Cori">Oscar Torrez Cori</option>
+                        <option value="Juan Carlos Pamuri Toro">Juan Carlos Pamuri Toro</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <label>1. ¿Se ejecutó la auditoría? <span style="color:#dc2626;">*</span></label>
+                    <select id="auditSelect" onchange="window.onAuditChange()">
+                        <option value="">Seleccione...</option>
+                        <option value="SI">SI</option>
+                        <option value="NO">NO</option>
+                    </select>
+                </div>
+
+                <div id="siCampos" class="hidden">
+                    <div class="form-row">
+                        <label>2. ¿Se penaliza?</label>
+                        <select id="penalizaSelect" onchange="window.onPenalizaChange()">
+                            <option value="">Seleccione...</option>
+                            <option value="SI">SI</option>
+                            <option value="NO">NO</option>
+                        </select>
+                    </div>
+
+                    <div id="noPenalizaMensaje" class="hidden sin-observacion-msg">
+                        <i class="fas fa-check-circle" style="color:#10b981;"></i> Auditoría sin observación
+                    </div>
+
+                    <div id="observacionCampo" class="hidden form-row">
+                        <label>Observación de penalización</label>
+                        <textarea id="observacionText" rows="2" placeholder="Ej: Sin sujecion de acometida..." class="motivo-textarea"></textarea>
+                    </div>
+
+                    <div id="motivoCampo" class="hidden form-row">
+                        <label>Motivo penalización</label>
+                        <select id="motivoSelect" onchange="window.onMotivoChange()" class="motivo-select"></select>
+                    </div>
+
+                    <div id="motivoAdicionalPregunta" class="hidden form-row">
+                        <label>¿Motivos adicionales?</label>
+                        <select id="motivoAdicionalSelect" onchange="window.onMotivoAdicionalChange()">
+                            <option value="">Seleccione...</option>
+                            <option value="SI">SI</option>
+                            <option value="NO">NO</option>
+                        </select>
+                    </div>
+
+                    <div id="adicionalCampo" class="hidden form-row">
+                        <label>Motivos adicionales</label>
+                        <div class="multicheck" id="motivosAdicionales"></div>
+                    </div>
+
+                    <div id="plexPregunta" class="hidden form-row">
+                        <label>3. ¿Se deriva escalar a PLEX?</label>
+                        <select id="plexSelect" onchange="window.onPlexChange()">
+                            <option value="">Seleccione...</option>
+                            <option value="SI">SI</option>
+                            <option value="NO">NO</option>
+                        </select>
+                    </div>
+
+                    <div id="plexCampo" class="hidden form-row">
+                        <label>Informe para PLEX</label>
+                        <textarea id="plexText" rows="3" placeholder="Ej: Niveles de Forward en la baja..." class="motivo-textarea"></textarea>
+                    </div>
+
+                    <div id="contratistaPregunta" class="hidden form-row">
+                        <label>4. ¿Contratista debe gestionar solución?</label>
+                        <select id="contratistaSelect" onchange="window.onContratistaChange()">
+                            <option value="">Seleccione...</option>
+                            <option value="SI">SI</option>
+                            <option value="NO">NO</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="noCampos" class="hidden">
+                    <div class="form-row">
+                        <label>Motivo de NO ejecución</label>
+                        <select id="motivoNoSelect">
+                            <option value="">Seleccione...</option>
+                            <option value="Usuario no se encuentra">Usuario no se encuentra</option>
+                            <option value="Usuario no desea">Usuario no desea</option>
+                            <option value="Sin comunicación">Sin comunicación</option>
+                        </select>
+                    </div>
+                    <div class="no-ejecucion-msg">
+                        ⚠️ Auditoría no ejecutada
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <div class="btn-row">
+                    <button class="btn btn-wasap" id="btnInforme"><i class="fab fa-whatsapp"></i> Informe</button>
+                    <button class="btn btn-wasap" id="btnPlex"><i class="fab fa-whatsapp"></i> PLEX</button>
+                </div>
+                <button class="btn" id="btnEnviar" disabled>
+                    <i class="fas fa-rocket"></i> Enviar a Power Automate
+                </button>
+            </div>
+        </div>
+
+        <!-- PANEL 3: OBSERVACIÓN OTRA ÁREA -->
+        <div class="main-pane" id="paneObs">
+            <div class="audit-form">
+                <div class="form-row">
+                    <label><i class="fas fa-building"></i> Área destino</label>
+                    <select id="areaSelect2" onchange="onAreaChange2()">
+                        <option value="">Seleccione área</option>
+                        <option value="VENTAS">VENTAS</option>
+                        <option value="CALL CENTER">CALL CENTER</option>
+                    </select>
+                </div>
+
+                <div id="ventasCampo2" class="hidden form-row">
+                    <label><i class="fas fa-tag"></i> Observación para VENTAS</label>
+                    <textarea id="ventasText2" rows="4" placeholder="Escriba la observación..."></textarea>
+                </div>
+
+                <div id="callCenterCampo2" class="hidden form-row">
+                    <label><i class="fas fa-headset"></i> Observación para CALL CENTER</label>
+                    <textarea id="callCenterText2" rows="4" placeholder="Escriba la observación..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="status-bar" id="statusMsg">⬆️ Cargue el Excel para comenzar</div>
+    </div>
+</div>
+
+<!-- MODAL INFORME -->
+<div id="informeModal" class="modal hidden">
+    <div class="modal-content">
+        <span class="modal-close" onclick="cerrarModalInforme()">&times;</span>
+        <h3 style="margin-bottom:15px;">📋 Informe de auditoría</h3>
+        <div id="informeTexto" class="informe-preview"></div>
+        
+        <div style="display:flex; gap:8px; margin-top:15px;">
+            <button class="btn" id="copiarInformeBtn" style="flex:1;"><i class="far fa-copy"></i> Copiar</button>
+            <button class="btn btn-outline" onclick="cerrarModalInforme()" style="flex:1;">Cerrar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // CONFIGURACIÓN - MOTIVOS
+    const MOTIVOS_PENALIZACION = [
+        "(200) Engrapado incorrecto o faltante",
+        "(201) No dejó activo el servicio",
+        "(202) Modem fuera de nivel",
+        "(203) Redes Wi-Fi mal configuradas",
+        "(204) Uso de instalación existente o no reemplaza materiales en malas condiciones",
+        "(205) Daño del cable o recorrido incorrecto",
+        "(206) Reparación parcial o no soluciona fallas",
+        "(207) Daños a la propiedad del cliente",
+        "(208) Diferencia entre el trabajo declarado y realizado",
+        "(209) Falta informe, no advierte situaciones a normalizar",
+        "(210) OT. mal completada",
+        "(211) No realiza tareas pudiendo hacerlas, aduce imposibilidad",
+        "(212) Diferencia de materiales de mayor consumo",
+        "(213) Antena mal fijada",
+        "(214) Antena mal orientada",
+        "(300) Desconexión no realizada",
+        "(301) Ingreso incorrecto",
+        "(302) Conecta Nodo, Tap, Nap que no corresponde",
+        "(303) Precinto nom. no instalado o mal armado",
+        "(304) Qspan_linga no instalada o mal armada",
+        "(305) Cruce bajo o flojo",
+        "(306) Modificación de tap mal realizada",
+        "(400) Instala material no Homologado",
+        "(401) Pasivos sin ajustar",
+        "(402) No registra_Corrige coordenadas",
+        "(403) Conector mal armado",
+        "(404) Loop incorrecto en tap, recorrido y divisores"
+    ];
+
+    const COLUMN_MAPPING = {
+        "cliente_nro": "Código",
+        "orden_nro": "Orden",
+        "orden_tipo": "Tipo",
+        "cliente_nombre_completo": "Usuario",
+        "ciudad": "Ciudad",
+        "zona": "Zona",
+        "tecnologia": "Tecnología (HFC)",
+        "tecnico_nombre": "Técnico",
+        "dealer_tecnico_nombre": "Empresa",
+        "orden_calle_direccion": "Dirección",
+        "cliente_telefono": "Teléfono"
+    };
+
+    // CONSTANTES DE ALMACENAMIENTO
+    const STORAGE_KEY = 'auditoria_estado_v10';
+    const EXPIRY_KEY = 'auditoria_expiry_v10';
+    const URL_STORAGE_KEY = 'powerautomate_url_v1';
+    const STORAGE_DURATION = 8 * 60 * 60 * 1000; // 8 horas
+
+    // Variables globales
+    let registros = [];
+    let idxSel = 0;
+    let auditoriasEstado = {};
+    let gestionadosSI = new Set();
+    let gestionadosNO = new Set();
+    let enviados = new Set();
+    let powerAutomateUrl = '';
+
+    // Helper functions
+    const $ = id => document.getElementById(id);
+
+    // Cargar URL guardada al iniciar
+    function cargarUrlGuardada() {
+        try {
+            const savedUrl = localStorage.getItem(URL_STORAGE_KEY);
+            if (savedUrl) {
+                powerAutomateUrl = savedUrl;
+                $("powerAutomateUrl").value = savedUrl;
+                actualizarEstadoUrl(true);
+            } else {
+                actualizarEstadoUrl(false);
+            }
+        } catch (e) {
+            console.error('Error cargando URL:', e);
+        }
+    }
+
+    // Guardar URL en localStorage
+    function guardarUrl(url) {
+        try {
+            if (url && url.startsWith('https://')) {
+                localStorage.setItem(URL_STORAGE_KEY, url);
+                powerAutomateUrl = url;
+                actualizarEstadoUrl(true);
+                mostrarFeedback('✅ URL guardada correctamente');
+                return true;
+            } else {
+                mostrarFeedback('❌ URL debe comenzar con https://', 'error');
+                return false;
+            }
+        } catch (e) {
+            console.error('Error guardando URL:', e);
+            return false;
+        }
+    }
+
+    // Actualizar UI del estado de la URL
+    function actualizarEstadoUrl(tieneUrl) {
+        const urlField = $("urlField");
+        const urlStatusText = $("urlStatusText");
+        const showUrlBtn = $("showUrlFieldBtn");
+        
+        if (tieneUrl) {
+            urlField.classList.add('valid');
+            urlStatusText.innerHTML = '🟢 URL configurada';
+            urlStatusText.style.color = '#10b981';
+            showUrlBtn.innerHTML = '<i class="fas fa-sync"></i> Cambiar URL';
+        } else {
+            urlField.classList.remove('valid');
+            urlStatusText.innerHTML = '🔴 URL no configurada (requerida)';
+            urlStatusText.style.color = '#dc2626';
+            showUrlBtn.innerHTML = '<i class="fas fa-edit"></i> Configurar';
+        }
+        
+        verificarBotonEnviar();
+    }
+
+    // Mostrar/ocultar campo de URL
+    function toggleUrlField(mostrar) {
+        const urlField = $("urlField");
+        const urlPanel = $("urlStatusPanel");
+        
+        if (mostrar) {
+            urlField.style.display = 'flex';
+            urlPanel.style.display = 'none';
+        } else {
+            urlField.style.display = 'none';
+            urlPanel.style.display = 'flex';
+        }
+    }
+
+    // Función para mostrar feedback
+    function mostrarFeedback(mensaje, tipo = 'success') {
+        const feedback = document.createElement('div');
+        feedback.className = 'copy-feedback';
+        feedback.textContent = mensaje;
+        
+        if (tipo === 'error') feedback.style.background = '#dc2626';
+        else if (tipo === 'warning') feedback.style.background = '#f59e0b';
+        
+        document.body.appendChild(feedback);
+        
+        setTimeout(() => {
+            feedback.remove();
+        }, 2000);
+    }
+
+    // Función para actualizar barra de estado
+    function actualizarStatusBar(mensaje, tipo = 'info') {
+        const statusBar = $("statusMsg");
+        statusBar.textContent = mensaje;
+        statusBar.className = 'status-bar';
+        if (tipo === 'error') statusBar.classList.add('error');
+        else if (tipo === 'success') statusBar.classList.add('success');
+        else if (tipo === 'warning') statusBar.classList.add('warning');
+    }
+
+    // Verificar si se puede habilitar el botón Enviar
+    function verificarBotonEnviar() {
+        const btnEnviar = $("btnEnviar");
+        if (!btnEnviar) return;
+        
+        const auditor = $("auditorSelect").value;
+        const auditEjecutado = $("auditSelect").value;
+        const codigoActual = registros[idxSel]?.cliente_nro;
+        
+        // Verificar URL configurada
+        if (!powerAutomateUrl) {
+            btnEnviar.disabled = true;
+            btnEnviar.title = "Configure la URL de Power Automate primero";
+            return;
+        }
+        
+        // Verificar si ya fue enviado
+        if (codigoActual && enviados.has(codigoActual)) {
+            btnEnviar.disabled = true;
+            btnEnviar.title = "Este código ya fue enviado";
+            return;
+        }
+        
+        if (auditor && (auditEjecutado === "SI" || auditEjecutado === "NO")) {
+            btnEnviar.disabled = false;
+        } else {
+            btnEnviar.disabled = true;
+        }
+    }
+
+    // Función para enviar a Power Automate (usa URL manual)
+    async function enviarAPowerAutomate() {
+        if (!powerAutomateUrl) {
+            actualizarStatusBar('⚠️ Configure la URL de Power Automate primero', 'error');
+            toggleUrlField(true);
+            return false;
+        }
+        
+        const codigoActual = registros[idxSel]?.cliente_nro;
+        
+        if (codigoActual && enviados.has(codigoActual)) {
+            actualizarStatusBar('⚠️ Este código ya fue enviado', 'error');
+            return false;
+        }
+        
+        const auditor = $("auditorSelect").value;
+        if (!auditor) {
+            actualizarStatusBar('⚠️ Debe seleccionar un auditor', 'error');
+            return false;
+        }
+        
+        const datos = construirDatosEnvio();
+        if (!datos) {
+            actualizarStatusBar('⚠️ No hay datos para enviar', 'error');
+            return false;
+        }
+        
+        const btnEnviar = $("btnEnviar");
+        const textoOriginal = btnEnviar.innerHTML;
+        
+        try {
+            btnEnviar.disabled = true;
+            btnEnviar.classList.add('loading');
+            btnEnviar.innerHTML = '<i class="fas fa-spinner"></i> Enviando...';
+            
+            actualizarStatusBar('⏳ Enviando a Power Automate...', 'info');
+            
+            console.log("Enviando a URL:", powerAutomateUrl);
+            console.log("Datos:", datos);
+            
+            const response = await fetch(powerAutomateUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(datos)
+            });
+            
+            actualizarStatusBar('✅ Datos enviados correctamente', 'success');
+            
+            if (codigoActual) {
+                enviados.add(codigoActual);
+            }
+            
+            if (registros[idxSel]) {
+                const codigo = registros[idxSel].cliente_nro;
+                const auditEjecutado = $("auditSelect").value;
+                
+                const tab = document.querySelectorAll('.code-tab')[idxSel];
+                tab.classList.remove('gestionado-si', 'gestionado-no');
+                
+                if (auditEjecutado === "SI") {
+                    gestionadosSI.add(codigo);
+                    tab.classList.add('gestionado-si');
+                } else {
+                    gestionadosNO.add(codigo);
+                    tab.classList.add('gestionado-no');
+                }
+                
+                guardarEstadoAuditoria(codigo);
+                actualizarContadorEjecutadas();
+            }
+            
+            btnEnviar.classList.remove('loading');
+            btnEnviar.classList.add('sent');
+            btnEnviar.innerHTML = '<i class="fas fa-check-circle"></i> Enviado';
+            
+            setTimeout(() => {
+                btnEnviar.classList.remove('sent');
+                btnEnviar.innerHTML = textoOriginal;
+                btnEnviar.disabled = true;
+                verificarBotonEnviar();
+            }, 3000);
+            
+            return true;
+            
+        } catch (error) {
+            console.error('Error:', error);
+            actualizarStatusBar('❌ Error al enviar: ' + error.message, 'error');
+            
+            btnEnviar.classList.remove('loading');
+            btnEnviar.innerHTML = textoOriginal;
+            btnEnviar.disabled = false;
+            verificarBotonEnviar();
+            
+            return false;
+        }
+    }
+
+    // Construir datos para envío
+    function construirDatosEnvio() {
+        if (!registros.length || idxSel === undefined) return null;
+        
+        const reg = registros[idxSel];
+        
+        let adicionales = [];
+        document.querySelectorAll('#motivosAdicionales input:checked').forEach(cb => {
+            adicionales.push(cb.value);
+        });
+        
+        return {
+            "Auditor": $("auditorSelect").value || "",
+            "Fecha": new Date().toISOString(),
+            "Codigo": reg.cliente_nro || 0,
+            "cliente_nro": reg.cliente_nro || "",
+            "orden_nro": reg.orden_nro || "",
+            "orden_tipo": reg.orden_tipo || "",
+            "cliente_nombre_completo": reg.cliente_nombre_completo || "",
+            "ciudad": reg.ciudad || "",
+            "zona": reg.zona || "",
+            "tecnologia": reg.tecnologia || "",
+            "tecnico_nombre": reg.tecnico_nombre || "",
+            "dealer_tecnico_nombre": reg.dealer_tecnico_nombre || "",
+            "direccion": reg.orden_calle_direccion || "",
+            "telefono": reg.cliente_telefono || "",
+            "alerta": reg.alerta || reg.ALERTA || "",
+            "observacion_excel": reg.orden_observacion || reg.OBSERVACION || "",
+            "coordenadas": formatearCoordenadas(reg.cliente_coordenada_x, reg.cliente_coordenada_y) || "",
+            "audit_ejecutado": $("auditSelect").value || "",
+            "penaliza": $("penalizaSelect").value || "",
+            "observacion_penalizacion": $("observacionText").value || "",
+            "motivo_penalizacion": $("motivoSelect").value || "",
+            "motivos_adicionales": adicionales.join('|'),
+            "escalar_plex": $("plexSelect").value || "",
+            "informe_plex": $("plexText").value || "",
+            "contratista_gestiona": $("contratistaSelect").value || "",
+            "motivo_no_ejecucion": $("motivoNoSelect").value || "",
+            "area_destino": $("areaSelect2").value || "",
+            "observacion_ventas": $("ventasText2").value || "",
+            "observacion_callcenter": $("callCenterText2").value || "",
+            "fecha_envio": new Date().toISOString(),
+            "fecha_informe": formatearFecha()
+        };
+    }
+
+    // Formatear coordenadas
+    function formatearCoordenadas(x, y) {
+        if (x == null || y == null) return "";
+        let lat = parseFloat(String(x).replace(',','.'));
+        let lon = parseFloat(String(y).replace(',','.'));
+        if (isNaN(lat) || isNaN(lon)) return "";
+        if (Math.abs(lat) > 1000000) lat /= 1000000;
+        if (Math.abs(lon) > 1000000) lon /= 1000000;
+        return lat.toFixed(6) + "," + lon.toFixed(6);
+    }
+
+    function formatearFecha() {
+        const f = new Date();
+        return `${f.getDate().toString().padStart(2,'0')}/${(f.getMonth()+1).toString().padStart(2,'0')}/${f.getFullYear()}`;
+    }
+
+    function extraerNumeroCita(reg) {
+        if (reg['AJ'] && typeof reg['AJ'] === 'string' && reg['AJ'].includes('SA-')) return reg['AJ'];
+        if (reg.numero_cita && typeof reg.numero_cita === 'string' && reg.numero_cita.includes('SA-')) return reg.numero_cita;
+        if (reg.orden_nro_1 && typeof reg.orden_nro_1 === 'string' && reg.orden_nro_1.includes('SA-')) return reg.orden_nro_1;
+        return null;
+    }
+
+    // Funciones de persistencia
+    function guardarEstadoCompleto() {
+        try {
+            const estado = {
+                registros: registros,
+                auditoriasEstado: auditoriasEstado,
+                gestionadosSI: Array.from(gestionadosSI),
+                gestionadosNO: Array.from(gestionadosNO),
+                enviados: Array.from(enviados),
+                timestamp: Date.now(),
+                fileName: document.getElementById('file-name').textContent
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(estado));
+            localStorage.setItem(EXPIRY_KEY, Date.now() + STORAGE_DURATION);
+            
+            const expiryDate = new Date(Date.now() + STORAGE_DURATION);
+            $("timestamp").textContent = `Datos válidos hasta: ${expiryDate.toLocaleTimeString()}`;
+        } catch (e) {
+            console.error('Error guardando estado:', e);
+        }
+    }
+
+    function guardarEstadoAuditoria(codigo) {
+        const estado = {
+            auditor: $("auditorSelect").value,
+            auditEjecutado: $("auditSelect").value,
+            penaliza: $("penalizaSelect").value,
+            observacion: $("observacionText").value,
+            motivoPpal: $("motivoSelect").value,
+            motivosAdicionales: [],
+            plex: $("plexSelect").value,
+            plexTexto: $("plexText").value,
+            contratista: $("contratistaSelect").value,
+            motivoNo: $("motivoNoSelect").value,
+            areaObs: $("areaSelect2").value,
+            ventasObs: $("ventasText2").value,
+            callCenterObs: $("callCenterText2").value
+        };
+        
+        document.querySelectorAll('#motivosAdicionales input:checked').forEach(cb => {
+            estado.motivosAdicionales.push(cb.value);
+        });
+        
+        auditoriasEstado[codigo] = estado;
+        guardarEstadoCompleto();
+    }
+
+    function actualizarContadorEjecutadas() {
+        $("contadorEjecutadas").textContent = gestionadosSI.size;
+        guardarEstadoCompleto();
+    }
+
+    // Event Listeners
+    document.addEventListener('DOMContentLoaded', function() {
+        cargarMotivos();
+        cargarUrlGuardada();
+        
+        // Configurar eventos de URL
+        $("saveUrlBtn").addEventListener("click", function() {
+            const url = $("powerAutomateUrl").value.trim();
+            if (guardarUrl(url)) {
+                toggleUrlField(false);
+            }
+        });
+        
+        $("showUrlFieldBtn").addEventListener("click", function() {
+            toggleUrlField(true);
+        });
+        
+        // Ocultar campo de URL inicialmente si hay URL guardada
+        if (powerAutomateUrl) {
+            toggleUrlField(false);
+        } else {
+            toggleUrlField(true); // Mostrar para que configuren
+        }
+        
+        $("auditorSelect").addEventListener("change", verificarBotonEnviar);
+        $("auditSelect").addEventListener("change", verificarBotonEnviar);
+        
+        verificarBotonEnviar();
+    });
+
+    // Funciones de UI
+    window.seleccionarRegistro = function(index) {
+        idxSel = index;
+        document.querySelectorAll('.code-tab').forEach((tab, i) => {
+            tab.classList.toggle('active', i === index);
+        });
+
+        const reg = registros[index];
+        if (!reg) return;
+
+        $("kpiTecnico").innerText = reg.tecnico_nombre || '—';
+        $("kpiZona").innerText = reg.zona || '—';
+        
+        const citaNum = extraerNumeroCita(reg);
+        $("kpiCitaServicio").innerHTML = `<span class="tecnologia-sa">${citaNum || '—'}</span>`;
+        $("kpiCodigoCliente").innerText = reg.cliente_nro || '—';
+
+        let html = '';
+        for (let [col, etiq] of Object.entries(COLUMN_MAPPING)) {
+            let val = reg[col] || '';
+            html += `<div class="data-item"><span class="data-label">${etiq}</span><span class="data-value">${val}</span></div>`;
+        }
+        
+        if (reg.cliente_coordenada_x && reg.cliente_coordenada_y) {
+            let coord = formatearCoordenadas(reg.cliente_coordenada_x, reg.cliente_coordenada_y);
+            if (coord) {
+                html += `<div class="data-item"><span class="data-label">Coordenadas</span>
+                    <span class="data-value">${coord} 
+                        <button class="coord-copy" onclick="copiarCoordenadas('${coord}', this)">
+                            <i class="far fa-copy"></i> Copiar
+                        </button>
+                    </span>
+                </div>`;
+            }
+        }
+        $("dataGrid").innerHTML = html;
+
+        $("alertText").innerText = reg.alerta || reg.ALERTA || '(sin alerta)';
+        $("obsText").innerText = reg.orden_observacion || reg.OBSERVACION || '(sin observación)';
+        
+        limpiarFormulario();
+        verificarBotonEnviar();
+    };
+
+    window.copiarCoordenadas = async function(coord, boton) {
+        try {
+            await navigator.clipboard.writeText(coord);
+            mostrarFeedback('📍 Coordenadas copiadas');
+            boton.classList.add('copied');
+            boton.innerHTML = '<i class="fas fa-check"></i> Copiado';
+            setTimeout(() => {
+                boton.classList.remove('copied');
+                boton.innerHTML = '<i class="far fa-copy"></i> Copiar';
+            }, 2000);
+        } catch (e) {
+            mostrarFeedback('❌ Error al copiar', 'error');
+        }
+    };
+
+    function limpiarFormulario() {
+        $("auditorSelect").value = "";
+        $("auditSelect").value = "";
+        window.onAuditChange();
+        $("penalizaSelect").value = "";
+        $("observacionText").value = "";
+        $("motivoSelect").value = "";
+        $("plexSelect").value = "";
+        $("plexText").value = "";
+        $("contratistaSelect").value = "";
+        $("motivoNoSelect").value = "";
+        $("areaSelect2").value = "";
+        $("ventasText2").value = "";
+        $("callCenterText2").value = "";
+        window.onAreaChange2();
+        document.querySelectorAll('#motivosAdicionales input[type="checkbox"]').forEach(cb => {
+            cb.checked = false;
+        });
+    }
+
+    // Funciones de cambio de UI
+    window.onAuditChange = function() {
+        const val = $("auditSelect").value;
+        $("siCampos").classList.add("hidden");
+        $("noCampos").classList.add("hidden");
+        
+        if (val === "SI") $("siCampos").classList.remove("hidden");
+        else if (val === "NO") $("noCampos").classList.remove("hidden");
+        
+        verificarBotonEnviar();
+    };
+
+    window.onPenalizaChange = function() {
+        const val = $("penalizaSelect").value;
+        $("observacionCampo").classList.add("hidden");
+        $("motivoCampo").classList.add("hidden");
+        $("motivoAdicionalPregunta").classList.add("hidden");
+        $("adicionalCampo").classList.add("hidden");
+        $("noPenalizaMensaje").classList.add("hidden");
+        $("plexPregunta").classList.add("hidden");
+        $("plexCampo").classList.add("hidden");
+        $("contratistaPregunta").classList.add("hidden");
+        
+        if (val === "SI") {
+            $("observacionCampo").classList.remove("hidden");
+            $("motivoCampo").classList.remove("hidden");
+            $("motivoAdicionalPregunta").classList.remove("hidden");
+            $("plexPregunta").classList.remove("hidden");
+        } else if (val === "NO") {
+            $("noPenalizaMensaje").classList.remove("hidden");
+            $("plexPregunta").classList.remove("hidden");
+        }
+    };
+
+    window.onMotivoChange = function() {
+        if ($("motivoSelect").value) {
+            $("motivoAdicionalPregunta").classList.remove("hidden");
+        }
+    };
+
+    window.onMotivoAdicionalChange = function() {
+        if ($("motivoAdicionalSelect").value === "SI") {
+            $("adicionalCampo").classList.remove("hidden");
+        } else {
+            $("adicionalCampo").classList.add("hidden");
+        }
+    };
+
+    window.onPlexChange = function() {
+        if ($("plexSelect").value === "SI") {
+            $("plexCampo").classList.remove("hidden");
+        } else {
+            $("plexCampo").classList.add("hidden");
+        }
+        
+        if ($("penalizaSelect").value === "SI") {
+            $("contratistaPregunta").classList.remove("hidden");
+        }
+    };
+
+    window.onContratistaChange = function() {}
+
+    window.onAreaChange2 = function() {
+        const area = $("areaSelect2").value;
+        $("ventasCampo2").classList.add("hidden");
+        $("callCenterCampo2").classList.add("hidden");
+        if (area === "VENTAS") $("ventasCampo2").classList.remove("hidden");
+        if (area === "CALL CENTER") $("callCenterCampo2").classList.remove("hidden");
+    };
+
+    function cargarMotivos() {
+        const select = $("motivoSelect");
+        select.innerHTML = '<option value="">Seleccione...</option>';
+        MOTIVOS_PENALIZACION.forEach(m => {
+            select.innerHTML += `<option value="${m}">${m}</option>`;
+        });
+
+        const container = $("motivosAdicionales");
+        container.innerHTML = "";
+        MOTIVOS_PENALIZACION.forEach(m => {
+            const id = "chk_" + m.replace(/[^a-z0-9]/gi, '_');
+            container.innerHTML += `<div class="check-item">
+                <input type="checkbox" id="${id}" value="${m}">
+                <label for="${id}">${m}</label>
+            </div>`;
+        });
+    }
+
+    // Event listeners para tabs
+    $('tabInfoBtn').addEventListener('click', () => {
+        document.querySelectorAll('.main-pane').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.main-tab').forEach(b => b.classList.remove('active'));
+        $('paneInfo').classList.add('active');
+        $('tabInfoBtn').classList.add('active');
+    });
+
+    $('tabAuditoriaBtn').addEventListener('click', () => {
+        document.querySelectorAll('.main-pane').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.main-tab').forEach(b => b.classList.remove('active'));
+        $('paneAuditoria').classList.add('active');
+        $('tabAuditoriaBtn').classList.add('active');
+    });
+
+    $('tabObsBtn').addEventListener('click', () => {
+        document.querySelectorAll('.main-pane').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.main-tab').forEach(b => b.classList.remove('active'));
+        $('paneObs').classList.add('active');
+        $('tabObsBtn').classList.add('active');
+    });
+
+    // Carga de Excel
+    $("excelInput").addEventListener("change", function(e) {
+        const file = e.target.files[0];
+        if (!file) { 
+            actualizarStatusBar("⚠️ No seleccionó archivo", 'error');
+            return; 
+        }
+        
+        document.getElementById('file-name').textContent = file.name.length > 15 ? file.name.substring(0,12)+'...' : file.name;
+        actualizarStatusBar("⏳ Cargando...", 'info');
+
+        const reader = new FileReader();
+        reader.onload = function(loadEvent) {
+            try {
+                const data = new Uint8Array(loadEvent.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const firstSheet = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheet];
+                const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+                if (jsonData.length < 2) { 
+                    actualizarStatusBar("❌ Archivo sin datos", 'error'); 
+                    return; 
+                }
+
+                const headers = jsonData[0];
+                const rows = jsonData.slice(1).filter(row => row[0] && row[0] !== "");
+                
+                registros = rows.map(row => {
+                    let obj = {};
+                    headers.forEach((h, idx) => { if (h) obj[h] = row[idx] !== undefined ? row[idx] : ""; });
+                    return obj;
+                }).filter(r => r.cliente_nro);
+
+                if (!registros.length) { 
+                    actualizarStatusBar("❌ No hay registros", 'error'); 
+                    return; 
+                }
+
+                const container = $("codesTabsContainer");
+                container.innerHTML = "";
+                registros.forEach((reg, i) => {
+                    const tab = document.createElement("div");
+                    tab.className = "code-tab" + (i === 0 ? " active" : "");
+                    tab.textContent = reg.cliente_nro || 'N/A';
+                    tab.setAttribute('data-index', i);
+                    tab.onclick = () => window.seleccionarRegistro(i);
+                    
+                    if (gestionadosSI.has(reg.cliente_nro)) tab.classList.add('gestionado-si');
+                    else if (gestionadosNO.has(reg.cliente_nro)) tab.classList.add('gestionado-no');
+                    
+                    container.appendChild(tab);
+                });
+                
+                $("codeCount").textContent = registros.length;
+                window.seleccionarRegistro(0);
+                actualizarStatusBar(`✅ ${registros.length} registros cargados`, 'success');
+                actualizarContadorEjecutadas();
+                guardarEstadoCompleto();
+            } catch (err) {
+                actualizarStatusBar("❌ Error: " + err.message, 'error');
+            }
+        };
+        reader.readAsArrayBuffer(file);
+    });
+
+    $("btnReset").addEventListener("click", () => {
+        if (confirm('¿Está seguro de reiniciar todos los datos?')) {
+            localStorage.removeItem(STORAGE_KEY);
+            localStorage.removeItem(EXPIRY_KEY);
+            // No borramos la URL guardada
+            location.reload();
+        }
+    });
+
+    $("btnInforme").addEventListener("click", () => {
+        if (!registros.length) { mostrarFeedback('⚠️ Primero cargue Excel', 'error'); return; }
+        
+        const reg = registros[idxSel];
+        const auditor = $("auditorSelect").value || "No seleccionado";
+        const auditEjecutado = $("auditSelect").value;
+        const penaliza = $("penalizaSelect").value;
+        const obsPenalizacion = $("observacionText").value || "Sin observación";
+        const motivoPpal = $("motivoSelect").value || "No aplica";
+        
+        let adicionales = [];
+        document.querySelectorAll('#motivosAdicionales input:checked').forEach(cb => {
+            adicionales.push(cb.value);
+        });
+        const motivosAdic = adicionales.length ? adicionales.join(', ') : "Ninguno";
+        
+        const escalarPlex = $("plexSelect").value || "NO";
+        const contratista = $("contratistaSelect").value || "NO";
+        const motivoNo = $("motivoNoSelect").value || "No aplica";
+        
+        let informe = "*---INFORME DE AUDITORÍA---*\n\n";
+        informe += `*CÓDIGO:* ${reg.cliente_nro || ''}\n`;
+        informe += `*OT:* ${reg.orden_nro || ''}\n`;
+        informe += `*TECNOLOGÍA:* ${reg.tecnologia || 'HFC'}\n`;
+        informe += `*USUARIO:* ${reg.cliente_nombre_completo || ''}\n`;
+        informe += `*TÉCNICO:* ${reg.tecnico_nombre || ''}\n`;
+        informe += `*AUDITOR:* ${auditor}\n`;
+        
+        if (auditEjecutado === "NO") {
+            informe += `*MOTIVO NO EJECUCIÓN:* ${motivoNo}\n`;
+        } else {
+            if (penaliza === "SI") {
+                informe += `*OBSERVACIÓN:* ${obsPenalizacion}\n`;
+                informe += `*MOTIVO:* ${motivoPpal}\n`;
+                informe += `*ADICIONALES:* ${motivosAdic}\n`;
+            } else {
+                informe += `*AUDITORÍA SIN OBSERVACIÓN*\n`;
+            }
+            informe += `*PLEX:* ${escalarPlex}\n`;
+            if (penaliza === "SI") informe += `*CONTRATISTA GESTIONA:* ${contratista}\n`;
+        }
+        
+        informe += `*FECHA:* ${formatearFecha()}`;
+        
+        $("informeTexto").innerText = informe;
+        $("informeModal").classList.remove("hidden");
+    });
+
+    window.cerrarModalInforme = function() { 
+        $("informeModal").classList.add("hidden"); 
+    };
+    
+    $("copiarInformeBtn").addEventListener("click", async function() {
+        await navigator.clipboard.writeText($("informeTexto").innerText);
+        mostrarFeedback('📋 Informe copiado');
+        this.classList.add('sent');
+        this.innerHTML = '<i class="fas fa-check"></i> Copiado';
+        setTimeout(() => {
+            this.classList.remove('sent');
+            this.innerHTML = '<i class="far fa-copy"></i> Copiar';
+        }, 2000);
+    });
+
+    $("btnPlex").addEventListener("click", () => {
+        if (!registros.length) { mostrarFeedback('⚠️ Primero cargue Excel', 'error'); return; }
+        
+        const reg = registros[idxSel];
+        const plexContent = $("plexText").value || "Sin informe específico";
+        
+        let plexInforme = `Tecnología: ${reg.tecnologia || 'HFC'}\n`;
+        plexInforme += `Nodo: ${reg.zona || ''}\n`;
+        plexInforme += `Codigo: ${reg.cliente_nro || ''}\n`;
+        plexInforme += `Usuario: ${reg.cliente_nombre_completo || ''}\n`;
+        plexInforme += `Informe: ${plexContent}\n`;
+        plexInforme += `Fecha: ${formatearFecha()}`;
+        
+        $("informeTexto").innerText = plexInforme;
+        $("informeModal").classList.remove("hidden");
+        mostrarFeedback('📤 Informe PLEX generado');
+    });
+
+    $("btnEnviar").addEventListener("click", enviarAPowerAutomate);
+
+    // Protecciones para Chrome Android
+    (function() {
+        const isChromeAndroid = /Android.*Chrome/i.test(navigator.userAgent);
+        
+        if (isChromeAndroid) {
+            console.log('📱 Chrome Android - Activando protecciones');
+            
+            // Prevenir swipe back
+            let touchStart = { x: 0, y: 0 };
+            
+            document.addEventListener('touchstart', function(e) {
+                touchStart.x = e.touches[0].clientX;
+                touchStart.y = e.touches[0].clientY;
+            }, { passive: true });
+            
+            document.addEventListener('touchmove', function(e) {
+                if (!touchStart.x) return;
+                
+                const touchEnd = {
+                    x: e.touches[0].clientX,
+                    y: e.touches[0].clientY
+                };
+                
+                const diffX = touchEnd.x - touchStart.x;
+                const diffY = Math.abs(touchEnd.y - touchStart.y);
+                
+                // Swipe derecho (navegación atrás)
+                if (diffX > 50 && diffY < 30) {
+                    e.preventDefault();
+                }
+                
+                // Pull to refresh
+                if (window.scrollY === 0 && touchEnd.y - touchStart.y > 30) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+            
+            // Bloquear botón back
+            history.pushState(null, null, location.href);
+            window.addEventListener('popstate', function() {
+                history.pushState(null, null, location.href);
+                mostrarFeedback('🔙 Navegación bloqueada', 'warning');
+            });
+            
+            // Mantener pantalla encendida
+            if ('wakeLock' in navigator) {
+                let wakeLock = null;
+                async function requestWakeLock() {
+                    try {
+                        wakeLock = await navigator.wakeLock.request('screen');
+                    } catch (err) {}
+                }
+                requestWakeLock();
+                
+                document.addEventListener('visibilitychange', async () => {
+                    if (wakeLock !== null && document.visibilityState === 'visible') {
+                        await requestWakeLock();
+                    }
+                });
+            }
+        }
+    })();
+
+</script>
+</body>
+</html>
